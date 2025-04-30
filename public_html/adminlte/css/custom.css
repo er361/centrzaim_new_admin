@@ -1,0 +1,33 @@
+
+.label {
+    margin-right: 5px;
+    margin-bottom: 5px !important;
+    display: inline-block;
+}
+
+#wrapper {
+    position: relative;
+}
+
+#page_number {
+    margin-top: 20px;
+    float: right;
+    padding: 10px 15px;
+    min-width: 200px;
+}
+
+table.dataTable tfoot th, table.dataTable tfoot td {
+    padding: 8px 10px;
+}
+
+.loan-offers {
+    cursor: pointer;
+}
+
+.loan-offers.loan-offers-disable {
+    cursor: progress;
+}
+
+.loan-offers.loan-offers-disable .loan-offer {
+    pointer-events: none;
+}

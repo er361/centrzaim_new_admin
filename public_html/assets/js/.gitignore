@@ -1,0 +1,5 @@
+*
+!miazaim/
+!miazaim/**/imgs/**
+!miazaim/**/
+!.gitignore

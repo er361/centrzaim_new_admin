@@ -1,0 +1,138 @@
+.form-container {
+  display: flex;
+  background-image: linear-gradient(-180deg, #FEFEFE 0%, #EEE 100%);
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+}
+
+.cardinfo-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+// Form styling 
+#my-sample-form {
+  background-color: #FFF;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  border-radius: 6px;
+  padding: 2em 2em 1em;
+  width: 20em;
+  margin-bottom: 2em;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s $bouncy;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  }
+  
+  // Change background color based on the card type
+  &.visa {
+    color: $white;
+    background-color: #0D4AA2;
+  }
+  
+  &.master-card {
+    color: $white;
+    background-color: #363636;
+  }
+  
+  &.american-express {
+    color: $white;
+    background-color: #007CC3;
+  }
+}
+
+.cardinfo-label {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+}
+
+.cardinfo-exp-date {
+  margin-right: 1em;
+  width: 100%;
+}
+
+.cardinfo-cvv {
+  width: 100%;
+}
+
+#button-pay {
+  width: 16em;
+  font-size: 15px;
+  border: 0;
+  padding: 1.2em 1em;
+  color: #fff;
+  background: #282c37;
+}
+
+.cardinfo-card-number {
+  position: relative;
+}
+
+// Add credit card image on the card number field
+#card-image {
+  position: absolute;
+  top: 2em;
+  right: 1em;
+  width: 44px;
+  height: 28px;
+  background-image: url(https://assets.braintreegateway.com/dropin/2.21.0/images/braintree_dropin_sprite@2x.png);
+  background-size: 86px 458px;
+  border-radius: $radius;
+  background-position: 46px 0;
+  margin-bottom: 1em;
+  
+  &.visa{
+    background-position: 0 -401px;  
+  }
+  
+  &.master-card{
+    background-position: 0 -261px;  
+  }
+  
+  &.american-express {
+    background-position: 0 -317px;
+  }
+}
+
+/*----------------------
+Credit card inputs 
+----------------------*/  
+// You can customize font related <input> styles through javascript
+.input-wrapper {
+  border-radius: 2px;
+  background: rgba(255,255,255,0.86);
+  height: 2.75em;
+  border: 1px solid #eee;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+  padding: 5px;
+  margin-bottom: 1em;
+}
+
+.cardinfo-card-number,
+.cardinfo-exp-date,
+.cardinfo-cvv {
+  transition: transform 0.3s;
+}
+
+// Change styles of the input wrappers based on input events.   
+.braintree-hosted-fields-focused {
+  border-color: $blue;
+}
+  
+.braintree-hosted-fields-invalid {  
+  border-color: $red;
+}
+
+.form-active {
+  
+}
+
+.input-empty {
+
+}
+
+

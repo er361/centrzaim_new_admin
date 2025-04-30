@@ -1,0 +1,29 @@
+.cabinet-menu-tip {
+	display: table;
+	width: 100%;
+	min-height: 88px;
+	margin-bottom: 20px;
+	background: #f0f1ee url(https://d28x4dctevax5k.cloudfront.net/assets/cb2ef3f7/images/bg-lined.png) 0 0;
+	font-size: 14px;
+}
+
+.cabinet-menu-box {
+	background: #f0f1ee;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin-bottom: 20px;
+}
+
+.cabinet-menu-box li:first-of-type a {
+	padding-top: 25px;
+}
+
+.cabinet-menu-box li a {
+	display: block;
+	font-size: 16px;
+	color: rgb( 0, 0, 0 );
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 25px;
+	position: relative;
+}

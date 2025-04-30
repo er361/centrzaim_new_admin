@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+.card {
+  background: linear-gradient(270deg, rgba(139, 139, 139, 0.9) 0%, rgba(195, 195, 195, 0.9) 100%);
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1), 1px 1px 6px 0px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  display: inline-block;
+  font-family: "Courier New", Monospace;
+  font-weight: bold;
+  height: 200px;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  width: 325px;
+}
+.card:after {
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: top right;
+  content: ' ';
+  height: 50px;
+  width: 100px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.card:before {
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  content: ' ';
+  height: 100px;
+  width: 300px;
+  position: absolute;
+  z-index: -1;
+}
+
+.card--visa {
+  background: linear-gradient(270deg, rgba(7, 122, 207, 0.9) 0%, rgba(42, 177, 240, 0.9) 100%);
+}
+.card--visa:before, .card--visa:after {
+  background-image: url("http://sirlisko.com/imgs/archive/cc logos/visa.svg");
+}
+.card--visa:before {
+  bottom: -5px;
+  right: -20px;
+}
+
+.card--aex {
+  background: linear-gradient(270deg, rgba(40, 48, 72, 0.9) 0%, rgba(133, 147, 152, 0.9) 100%);
+}
+.card--aex:before, .card--aex:after {
+  background-image: url("http://sirlisko.com/imgs/archive/cc logos/amex.svg");
+}
+.card--aex:after {
+  background-size: 40px;
+}
+.card--aex:before {
+  background-size: 100px;
+  bottom: -10px;
+  right: -5px;
+}
+
+.card--mastercard {
+  background: linear-gradient(270deg, rgba(244, 107, 69, 0.9) 0%, rgba(238, 168, 73, 0.9) 100%);
+}
+.card--mastercard:before, .card--mastercard:after {
+  background-image: url("http://sirlisko.com/imgs/archive/cc logos/master.svg");
+}
+.card--mastercard:before {
+  background-size: 150px;
+  bottom: -5px;
+}
+.card--mastercard:after {
+  background-size: 60px;
+}
+
+.card--paypal {
+  background: linear-gradient(270deg, rgba(0, 80, 224, 0.9) 0%, rgba(67, 199, 255, 0.9) 100%);
+}
+.card--paypal:before, .card--paypal:after {
+  background-image: url("http://sirlisko.com/imgs/archive/cc logos/paypal.svg");
+}
+.card--paypal:before {
+  bottom: -15px;
+}
+.card--paypal:after {
+  background-size: 90px;
+}
+
+.card__number {
+  margin-top: 60px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-shadow: 1px 1px 1px rgba(81, 81, 81, 0.4);
+}
+
+.card__info {
+  display: flex;
+  margin-top: 30px;
+}
+.card__info span {
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  margin-bottom: 5px;
+  text-shadow: none;
+}
+
+.card__info__name,
+.card__info__expire {
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 1px 1px 1px rgba(81, 81, 81, 0.4);
+}
+
+.card__info__name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.card--empty,
+.card__add {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card--empty {
+  background: none;
+  box-shadow: none;
+  border: 2px dashed #00AEEF;
+}
+
+.card__add {
+  background: #00AEEF;
+  border: 1px solid #04ADE4;
+  border-radius: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  height: 50px;
+  width: 50px;
+}
+
+.card__text {
+  color: #939393;
+  display: block;
+}
