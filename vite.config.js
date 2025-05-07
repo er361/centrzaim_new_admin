@@ -6,10 +6,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/assets/projects/miazaim/css/app.css',
-                'resources/assets/projects/miazaim/js/app.js',
-                'resources/assets/projects/miazaim/js/lib/lib.js',
-                'resources/assets/projects/miazaim/js/app.jsx',
+                'resources/assets/projects/ctr/css/app.css',
+                'resources/assets/projects/ctr/css/style.css',
+                'resources/assets/projects/ctr/js/app.js',
+                'resources/assets/projects/ctr/js/lib/lib.js',
+                'resources/assets/projects/ctr/js/app.jsx',
                 'resources/assets/js/app.js'
             ],
             refresh: true,
@@ -32,7 +33,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@': '/resources/assets/projects/miazaim/js',
+            '@': '/resources/assets/projects/ctr/js',
         },
     },
     server: {
@@ -47,14 +48,14 @@ export default defineConfig({
             allowedHeaders: ['Content-Type', 'Authorization'],
         },
         proxy: {
-            // '/assets/miazaim/fonts': {
+            // '/assets/ctr/fonts': {
             //     target: 'http://localhost:80', // Laravel работает на порту 80
             //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/assets\/miazaim\/fonts/, '/assets/miazaim/fonts'),
+            //     rewrite: (path) => path.replace(/^\/assets\/ctr\/fonts/, '/assets/ctr/fonts'),
             // },
-            '/assets/miazaim/imgs': {
+            '/assets/ctr/imgs': {
                 target: 'http://localhost',
-                rewrite: (path) => path.replace(/^\/assets\/miazaim\/imgs/, '/assets/miazaim/imgs'),
+                rewrite: (path) => path.replace(/^\/assets\/ctr\/imgs/, '/assets/ctr/imgs'),
             },
         }
     },

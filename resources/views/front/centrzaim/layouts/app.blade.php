@@ -1,154 +1,253 @@
-@props(['hasTimer' => true])
-        <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="yandex-verification" content="6a1a5b68d9cdc5c6"/>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>Займы онлайн на карту срочно без отказа | miaZaim</title>
-
-    <!-- Fonts -->
-    {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
-    {{--    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>--}}
-    <link rel="stylesheet" href="/assets/miazaim/css/nouislider.min.css">
-
-    <link rel="preload" href="/assets/miazaim/fonts/Lato-Regular.woff2" as="font" type="font/woff2"
-          crossorigin="anonymous">
-    <link rel="preload" href="/assets/miazaim/fonts/Montserrat-Medium.woff2" as="font" type="font/woff2"
-          crossorigin="anonymous">
-    <link rel="preload" href="/assets/miazaim/fonts/GolosText-Regular.woff2" as="font" type="font/woff2"
-          crossorigin="anonymous">
-
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    @vite('resources/assets/projects/miazaim/css/app.css')
-    @yield('head_scripts')
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload fonts -->
+    <link rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Roboto:wght@400;500&display=swap"
+          as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Roboto:wght@400;500&display=swap"
+              rel="stylesheet">
+    </noscript>
+    {{--    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">--}}
+    <title>Хорошие займы онлайн 24/7 - Центр займов!</title>
+    <link rel="stylesheet" href="/css/nouislider.min.css">
+    <link rel="icon" href="{{ asset('assets/ctr/img/svg/favicon.png') }}" type="image/x-icon">
+    @viteReactRefresh
+    @vite('resources/assets/projects/ctr/css/style.css',)
+    @viteReactRefresh
+    @vite('resources/assets/projects/ctr/css/app.css')
 </head>
-<body class="font-body text-black-text">
-<header class="container sm:px-8 px-2 sm:py-2 py-4 flex flex-row justify-between
-sm:gap-8 gap-4  sm:text-base text-sm">
-    @include('blocks.components.logo')
-    @yield('header')
-    @if($hasTimer)
-        <div class="flex flex-row sm:gap-2 gap-2 items-center">
-            <img src="/assets/miazaim/imgs/clock.svg" alt="clock" class="hidden sm:block">
-            <span class="shrink-0">Деньги у вас</span>
-            <span class="timeGetMoney text-lg font-bold">18:32</span>
-            <img id="showMenu" src="/assets/miazaim/imgs/logo_romb.svg" alt="logo2" class="sm:hidden
-        block cursor-pointer transition duration-700">
+<body>
+<header class="header">
+    <div class="header__container container">
+        <div class="header__logo logo">
+            <a href="{{route('front.index')}}"><img src="/assets/ctr/img/logo.svg" alt="Социальный займ"></a>
         </div>
-    @endif
-    @if(auth()->check())
-        <div class="hidden md:block">
-            @include('blocks.logout')
+        <div class="header__menu">
+            @php
+                // Проверяем, находимся ли мы на главной странице
+                $isHomePage = request()->is('/');
+            @endphp
+
+            <ul class="menu">
+                <li class="menu__item">
+                    <a href="{{ $isHomePage ? '#methods' : url('/') . '#methods' }}" class="menu__link">Способы
+                        получения</a>
+                </li>
+                <li class="menu__item">
+                    <a href="{{ $isHomePage ? '#reviews' : url('/') . '#reviews' }}" class="menu__link">Отзывы</a>
+                </li>
+                <li class="menu__item">
+                    <a href="{{ $isHomePage ? '#faq' : url('/') . '#faq' }}" class="menu__link">Ответы на вопросы</a>
+                </li>
+            </ul>
         </div>
-    @endif
+        <div class="header__timer">
+            <div class="timer">
+                <p class="timer__text">Деньги у вас</p>
+                <div class="timer__block">
+                    <div class="timer__icon">
+                        <svg>
+                            <use xlink:href="/assets/ctr/img/sprite.svg#icon-clock">
+                        </svg>
+                    </div>
+                    <span class="timeGetMoney" data-time>00:00</span>
+                </div>
+            </div>
+        </div>
+        <button class="mobile-action">
+            <svg>
+                <use xlink:href="/assets/ctr/img/sprite.svg#icon-menu">
+            </svg>
+        </button>
+    </div>
 </header>
-<div id="showMenuContent" class="h-full sm:hidden w-0 overflow-hidden  absolute z-10 text-white bg-black-text transition-[width] duration-700
-    bg-[url('/assets/miazaim/imgs/vector_mob_menu.svg')] bg-no-repeat bg-[center_bottom_4rem] bg-cover
-">
-    <ul class="text-[28px] font-semibold">
-        <li class="py-3 px-5 cursor-pointer">
-            <a class="mobile-menu-link" href="#why-us">Почему мы?</a>
-        </li>
-        <li class="py-3 px-5 cursor-pointer">
-            <a class="mobile-menu-link" href="#how-to">Как оформить заём</a>
-        </li>
-        <li class="py-3 px-5 cursor-pointer">
-            <a class="mobile-menu-link" href="#money-to">Способы получения</a>
-        </li>
-        @if(auth()->check())
-            <li class="py-3 px-5 cursor-pointer">
-                @include('blocks.logout', ['class' => 'bg-text-black !text-white !p-0'])
+@yield('content')
+<!-- begin footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer__logo logo">
+            <img src="/assets/ctr/img/logo.svg" alt="Центр займов 24/7">
+        </div>
+        <ul class="contacts footer__contacts">
+            <li class="contacts__item">
+                <div class="contacts__icon contacts__icon_phone">
+                    <svg>
+                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-phone">
+                    </svg>
+                </div>
+                <a class="contacts__text" href="tel:+79649937937">+7 (964) 9-937-937</a>
             </li>
-        @endif
+            <li class="contacts__item">
+                <div class="contacts__icon contacts__icon_mail">
+                    <svg>
+                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-mail">
+                    </svg>
+                </div>
+                <a class="contacts__text" href="mailto:finxmall24@gmail.com">finxmall24@gmail.com</a>
+            </li>
+            <li class="contacts__item">
+                <div class="contacts__icon contacts__icon_map">
+                    <svg>
+                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-map">
+                    </svg>
+                </div>
+                <p class="contacts__text">г. Москва, ул. Пресненская наб. 12, Башня Федерации, 19 этаж</p>
+            </li>
+        </ul>
+        <div class="schedule">
+            <p class="schedule__value">Заявки принимаются 24/7 без обедов и выходных!</p>
+        </div>
+        <p class="mark">Сервис предназначен для лиц, старше<br> 18 лет</p>
+        <div class="footer__info">
+            <h3 class="footer__title">Условия займов:</h3>
+            <p class="footer__text">Сервис Социальный займ позволяет подобрать предложения по выдаче займа на следующих
+                условиях: Сумма займа от 1000 до 100 000 рублей. Возраст заемщика от 18 до 75 лет. Срок займа от 5 дней
+                до 365 дней. Полная стоимость кредита (ПСК) может варьироваться от 0 до 292% годовых. Бесплатные первые
+                займы (под 0%) возможны в исключительных случаях по решению кредитора. Займы и кредиты предоставляются
+                организациями, имеющими соответствующие лицензии.</p>
 
-    </ul>
+            <h3 class="footer__title">ПСК (полная стоимость кредита)</h3>
+            <p class="footer__text">Максимальная процентная в процентах составляет 292% годовых. Максимальная
+                годовая процентная ставка, включающая ссудный процент, а также все остальные комиссии и расходы
+                за год, или аналогичная ставка.</p>
+            <p class="footer__text">* У пользователей сервиса есть возможность получить займ с минимальной
+                процентной ставкой одобренной МФО. Подробности при выборе персонального предложения. Займ у
+                партнеров выдается в российских рублях гражданам Российской Федерации, на банковский счет, на
+                карту или наличными. Минимальная сумма займа: 1 000 рублей. Максимальная сумма займа: 100 000
+                рублей. Процентная ставка и срок займа: по решению МФО. Услугу сервиса предоставляет
+                индивидуальный предприниматель Кузнецова М.Ю. ОГРНИП: 323645700109605, ИНН 645004790022</p>
+
+            <h3 class="footer__title">Находится в реестре операторов, осуществляющих обработку персональных
+                данных, Приказ № 174 от 27.12.2023 Рег. № 64-23-011823</h3>
+            <p class="footer__text">Вся представленная на сайте информация, касающаяся финансовых услуг, носит
+                информационный характер и ни при каких условиях не является публичной офертой, определяемой
+                положениями статьи 437 Гражданского кодекса РФ. Нажатие на кнопки "Получить деньги", а также
+                последующее заполнение тех или иных форм, не накладывает на владельцев сайта никаких
+                обязательств.</p>
+            <p class="footer__text">Все материалы, размещенные на сайте являются собственностью владельцев
+                сайта, либо собственностью организаций, с которыми у владельцев сайта есть соглашение о
+                размещении материалов.<br>
+                Для аналитических целей на сайте работает система статистики, которая собирает информацию о
+                посещенных страницах сайта, заполненных формах и т.д. Сотрудники компании имеют доступ к этой
+                информации.</p>
+            <p class="footer__text">Регистрируясь на сайте или оставляя тем, или иным способом свои персональные
+                данные (информацию о себе), Вы предоставляете право сотрудникам компании обрабатывать вашу
+                персональную информацию.</p>
+            <p class="footer__text">Данное соглашение действует бессрочно.<br>
+                Важно: предоплату берут только мошенники!<br>
+                Сервис бесплатный - за предоставление информации комиссия не взимается.<br></p>
+        </div>
+    </div>
+</footer>
+<div class="mobile-menu">
+    <div class="container">
+        <ul class="mobile-menu__list">
+            <li class="mobile-menu__item">
+                <a href="#methods" class="mobile-menu__link">Способы получения</a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="#reviews" class="mobile-menu__link">Отзывы</a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="#faq" class="mobile-menu__link">Ответы на вопросы</a>
+            </li>
+        </ul>
+        <a href="#" class="btn mobile-menu__btn" data-next>Получить деньги</a>
+
+        <div class="mobile-menu__img">
+            <img loading="lazy" srcset="/assets/ctr/img/methods@2x.webp 2x, /assets/ctr/img/methods.webp"
+                 src="/assets/ctr/img/methods_origin.png" alt="Способы получения">
+        </div>
+    </div>
 </div>
-<div class="text-black-text">
-    @yield('content')
-</div>
-@include('blocks.footer')
-<script src="/assets/miazaim/js/nouislider.min.js"></script>
-@vite([
-    'resources/assets/projects/miazaim/js/app.js',
-//    'resources/assets/js/app.js'
-])
-<script src="https://unpkg.com/imask"></script>
-<script type="text/javascript">
-    const frontConfig = {
-        routeName: @json(request()->route()->getName()),
-        dadataToken: @json($dadataToken),
-        sliderSumm: @json($sliderSumm),
-        isRedirectEnabled: @json($isRedirectEnabled),
-        redirectUrl: @json($redirectUrl),
-        redirectDelay: @json($redirectDelay),
-    };
-    console.log('front config', frontConfig);
-
-    function redirect(event, redirectUrl) {
-        if(!frontConfig.isRedirectEnabled)
-            return;
-
-        if(frontConfig.redirectUrl)
-            redirectUrl = frontConfig.redirectUrl;
-
-
-        // Позволяем открыть форму в новой вкладке
-        setTimeout(() => {
-            window.location.href = redirectUrl;
-        }, frontConfig.redirectDelay); // Задержка 100 мс для гарантии
-    }
-
-</script>
-
-@vite('resources/assets/js/app.js')
-
+<!-- end footer -->
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript" defer>
-
-    // Получаем текущий URL
-    const currentUrl = window.location.pathname;
-
-    // Устанавливаем таймаут в зависимости от URL
-    const delay = currentUrl.includes('/register') ? 4000 : 0;
-    console.log('delay', delay);
+<script defer type="text/javascript">
+    function getParameterByName(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+    }
+    // Получаем идентификатор счетчика из параметра URL
+    const ym_id = getParameterByName('ym_id');
 
     window.addEventListener('load', function () {
-        setTimeout(() => {
+        setTimeout(function () {
             (function (m, e, t, r, i, k, a) {
                 m[i] = m[i] || function () {
-                    (m[i].a = m[i].a || []).push(arguments)
+                    (m[i].a = m[i].a || []).push(arguments);
                 };
                 m[i].l = 1 * new Date();
-                for (var j = 0; j < document.scripts.length; j++) {
-                    if (document.scripts[j].src === r) {
-                        return;
-                    }
-                }
-                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-            })
-
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-            ym(99015882, "init", {
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
+            })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            //default counter
+            ym(96714912, "init", {
                 clickmap: true,
                 trackLinks: true,
                 accurateTrackBounce: true,
                 webvisor: true
             });
-        }, delay);
 
+            // Если идентификатор найден, инициализируем счетчик
+            console.info('Идентификатор ym_id:', ym_id);
+            if (ym_id) {
+                ym(ym_id, "init", {
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true,
+                    webvisor: true
+                });
+            } else {
+                console.warn('Идентификатор ym_id не найден в URL');
+            }
+        }, 4000);
     });
-
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/99015882" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/96714912" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
-
-@yield('scripts')
 <!-- /Yandex.Metrika counter -->
-
+<!-- Top.Mail.Ru counter -->
+<script defer type="text/javascript">
+    var _tmr = window._tmr || (window._tmr = []);
+    _tmr.push({id: "3493619", type: "pageView", start: (new Date()).getTime(), pid: "USER_ID"});
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            (function (d, w, id) {
+                if (d.getElementById(id)) return;
+                var ts = d.createElement("script");
+                ts.type = "text/javascript";
+                ts.async = true;
+                ts.defer = true;
+                ts.id = id;
+                ts.src = "https://top-fwz1.mail.ru/js/code.js";
+                var f = function () {
+                    var s = d.getElementsByTagName("script")[0];
+                    s.parentNode.insertBefore(ts, s);
+                };
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else {
+                    f();
+                }
+            })(document, window, "tmr-code");
+        }, 4000);
+    });
+</script>
+<noscript>
+    <div><img src="https://top-fwz1.mail.ru/counter?id=3493619;js=na" style="position:absolute;left:-9999px;"
+              alt="Top.Mail.Ru"/></div>
+</noscript>
+<script defer src="/js/nouislider.min.js"></script>
+@viteReactRefresh
+@vite(['resources/js/scripts.js', 'resources/js/app.jsx'])
+<!-- /Top.Mail.Ru counter -->
+@yield('scripts')
 </body>
 </html>
