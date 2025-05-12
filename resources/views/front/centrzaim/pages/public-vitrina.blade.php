@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 @section('content')
     <main class="main">
@@ -6,14 +5,24 @@
             <div class="container">
                 <div class="offers-page__row">
                     <div class="offers-page__info">
-                        <h1 class="title offers-page__title">
-                            <span data-user-name class="capitalize">Имя юзера, (или нет)</span>, данные компании готовы выдать Вам заём
-                        </h1>
-                        <p class="offers-page__text">Если Вам не одобряют требуемую сумму, разделите её на части и подайте заявки в несколько МФО.</p>
+                        @auth
+                            <h1 class="title offers-page__title">
+                                <span data-user-name class="capitalize">{{auth()->user()->name}}</span>, данные компании
+                                готовы выдать Вам заём
+                            </h1>
+                        @endauth
+                        @guest
+                            <h1 class="title offers-page__title">
+                                Эти МФО готовы выдать Вам займ!
+                                В течении 30 минут!
+                            </h1>
+                        @endguest
+                        <p class="offers-page__text">Если Вам не одобряют требуемую сумму, разделите её на части и
+                            подайте заявки в несколько МФО.</p>
                     </div>
                     <div class="offers-page__img">
-                        <img srcset="/img/methods@2x.webp 2x, /img/methods.webp"
-                             src="/img/methods_origin.png" alt="Займ">
+                        <img srcset="/assets/ctr/img/methods@2x.webp 2x, /assets/ctr/img/methods.webp"
+                             src="/assets/ctr/img/methods_origin.png" alt="Займ">
                     </div>
                 </div>
             </div>
