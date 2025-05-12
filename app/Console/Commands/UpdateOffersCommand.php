@@ -21,7 +21,7 @@ class UpdateOffersCommand extends Command
     public function handle(): void
     {
         Log::channel('offers')->info('Start update offers');
-        $PLATFORM_ID = setting()->get('LEADS_PLATFORM_ID') ?? 1316606;
+        $PLATFORM_ID = setting()->get('LEADS_PLATFORM_ID') ?? 1313531;
 
         $BASE_URL = 'https://api.leads.su/webmaster/offers/connectedPlatforms?';
         $EXTENDED_FIELDS = 1;
@@ -48,7 +48,16 @@ class UpdateOffersCommand extends Command
     private function saveOffers(array $offers): void
     {
         $offerDTO = new OfferDTO($offers);
-        collect($offerDTO->getOffers())->each(function (OfferApiModel $offer) {
+        $totalOffers = count($offerDTO->getOffers());
+        $newOffers = 0;
+        $updatedOffers = 0;
+
+        Log::channel('offers')->info("Processing {$totalOffers} offers");
+
+        collect($offerDTO->getOffers())->each(function (OfferApiModel $offer) use (&$newOffers, &$updatedOffers) {
+            // Check if loan exists
+            $exists = Loan::where('api_id', $offer->id)->exists();
+
             $loan = Loan::updateOrCreate(
                 ['api_id' => $offer->id], // Критерии поиска
                 [
@@ -70,6 +79,15 @@ class UpdateOffersCommand extends Command
                 ['link' => $offer->link, 'source_id' => 1] // Остальные данные
             );
 
+            if ($exists) {
+                $updatedOffers++;
+                Log::channel('offers')->info("Updated offer: {$offer->siteName} (ID: {$offer->id})");
+            } else {
+                $newOffers++;
+                Log::channel('offers')->info("Added new offer: {$offer->siteName} (ID: {$offer->id})");
+            }
         });
+
+        Log::channel('offers')->info("Summary: {$totalOffers} offers processed, {$newOffers} new offers added, {$updatedOffers} offers updated");
     }
 }
