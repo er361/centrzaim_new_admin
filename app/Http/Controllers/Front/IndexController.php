@@ -20,6 +20,8 @@ class IndexController extends Controller
         $settings = setting()->all();
         $redirectMainPage = !Arr::get($settings, 'should_redirect_to_register_page_from_sources', '0');
         $redirectMainPage = $redirectMainPage && Arr::get($settings, 'is_redirect_enabled', '0');
-        return view('pages.index', compact('redirectMainPage'));
+
+        $showForm = 'false';
+        return view('pages.index', compact('redirectMainPage', 'showForm'));
     }
 }

@@ -16,14 +16,13 @@
     </noscript>
     {{--    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">--}}
     <title>Хорошие займы онлайн 24/7 - Центр займов!</title>
-    <link rel="stylesheet" href="/css/nouislider.min.css">
+    <link rel="stylesheet" href="/assets/ctr/css/nouislider.min.css">
     <link rel="icon" href="{{ asset('assets/ctr/img/svg/favicon.png') }}" type="image/x-icon">
     @viteReactRefresh
     @vite('resources/assets/projects/ctr/css/style.css',)
     @viteReactRefresh
     @vite('resources/assets/projects/ctr/css/app.css')
 </head>
-<body>
 <header class="header">
     <div class="header__container container">
         <div class="header__logo logo">
@@ -244,9 +243,9 @@
     <div><img src="https://top-fwz1.mail.ru/counter?id=3493619;js=na" style="position:absolute;left:-9999px;"
               alt="Top.Mail.Ru"/></div>
 </noscript>
-<script defer src="/js/nouislider.min.js"></script>
+<script defer src="/assets/ctr/js/nouislider.min.js"></script>
 @viteReactRefresh
-@vite(['resources/js/scripts.js', 'resources/js/app.jsx'])
+@vite(['resources/assets/projects/ctr/js/scripts.js', 'resources/assets/projects/ctr/js/app.jsx'])
 <!-- /Top.Mail.Ru counter -->
 @yield('scripts')
 </body>

@@ -6,7 +6,7 @@ import PhoneInput from "@/components/PhoneInput.jsx";
 const parentRedirect = 'https://maxzaim.com/668278707e019'
 
 
-const MoneyForm = () => {
+const MoneyForm = ({ showFormFields = true }) => {
     const [phone, setPhone] = useState('');
     const [privacy, setPrivacy] = useState(true);
     const [phoneError, setPhoneError] = useState(false);
@@ -22,6 +22,14 @@ const MoneyForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // If we're only showing the button (not the form fields)
+        // just open the redirect URL directly
+        if (!showFormFields) {
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            window.location.href = parentRedirect + '?' + urlSearchParams.toString();
+            return;
+        }
 
         if(!privacy)
             return;
@@ -102,21 +110,23 @@ const MoneyForm = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="flex flex-col xl:flex-row gap-8">
-                <div className="flex flex-col xl:flex-row gap-8 xl:h-[60px] w-full">
-                    <Autocomplete ref={fullNameRef}
-                                  onChangeListener={(val) => {
-                                      setFullName(val)
-                                  }}
-                                  wrapperClass='w-full max-h-[60px] xl:w-1/2'/>
-                    <div className='w-full xl:w-1/2 max-h-[60px]'>
-                        <PhoneInput ref={phoneInputRef}
-                                    onPhoneChange={(val) => {
-                                        setPhone(val)
+                {showFormFields && (
+                    <div className="flex flex-col xl:flex-row gap-8 xl:h-[60px] w-full">
+                        <Autocomplete ref={fullNameRef}
+                                    onChangeListener={(val) => {
+                                        setFullName(val)
                                     }}
-                        />
+                                    wrapperClass='w-full max-h-[60px] xl:w-1/2'/>
+                        <div className='w-full xl:w-1/2 max-h-[60px]'>
+                            <PhoneInput ref={phoneInputRef}
+                                        onPhoneChange={(val) => {
+                                            setPhone(val)
+                                        }}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="get-money-wrapper flex flex-col gap-4 justify-center">
+                )}
+                <div className={`get-money-wrapper flex flex-col gap-4 justify-center ${!showFormFields ? 'w-full' : ''}`}>
                     <div className="flex flex-row justify-center">
                         <button onClick={() => {
                         }} type="submit"
@@ -127,28 +137,30 @@ const MoneyForm = () => {
                         </button>
                     </div>
                     <div className="flex flex-row justify-center gap-2">
-                        <img src="/img/new-site/checkbox-blue.svg" className="size-[20px]" alt="checkbox"/>
+                        <img src="/assets/ctr/img/new-site/checkbox-blue.svg" className="size-[20px]" alt="checkbox"/>
                         <span className="text-sm text-center opacity-55">Быстро и надежно</span>
                     </div>
                 </div>
             </div>
 
-            <div className="checkbox-square form__checkbox">
-                <input
-                    className="visibility-hidden"
-                    id="privacy"
-                    type="checkbox"
-                    checked={privacy}
-                    onChange={() => setPrivacy(!privacy)}
-                    name="privacy"
-                />
-                <label htmlFor="privacy" className='inline-block'>
-                    <span>Я даю согласие на сбор и обработку моих данных на условиях &nbsp;
-                        <a className='inline underline' href="/docs/data.docx">обработки персональных данных</a>,
-                        на <a className='inline underline' href="/docs/ads.docx">рассылку рекламных материалов</a></span>
-                </label>
-                {privacy === false && <span className="text-red text-xs">Заполните это поле</span>}
-            </div>
+            {showFormFields && (
+                <div className="checkbox-square form__checkbox">
+                    <input
+                        className="visibility-hidden"
+                        id="privacy"
+                        type="checkbox"
+                        checked={privacy}
+                        onChange={() => setPrivacy(!privacy)}
+                        name="privacy"
+                    />
+                    <label htmlFor="privacy" className='inline-block'>
+                        <span>Я даю согласие на сбор и обработку моих данных на условиях &nbsp;
+                            <a className='inline underline' href="/docs/data.docx">обработки персональных данных</a>,
+                            на <a className='inline underline' href="/docs/ads.docx">рассылку рекламных материалов</a></span>
+                    </label>
+                    {privacy === false && <span className="text-red text-xs">Заполните это поле</span>}
+                </div>
+            )}
         </form>
     );
 };

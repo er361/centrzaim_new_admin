@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     base: '/build',
@@ -11,11 +12,13 @@ export default defineConfig({
                 'resources/assets/projects/ctr/js/app.js',
                 'resources/assets/projects/ctr/js/lib/lib.js',
                 'resources/assets/projects/ctr/js/app.jsx',
+                'resources/assets/projects/ctr/js/scripts.js',
                 'resources/assets/js/app.js'
             ],
             refresh: true,
             hotFile: 'public_html/hot',
         }),
+        react(),
     ],
     build: {
         outDir: 'public_html/build',

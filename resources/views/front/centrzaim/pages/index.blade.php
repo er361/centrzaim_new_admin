@@ -43,7 +43,7 @@
                                 </p>
 
                                 @include('blocks.components.money-slider')
-                                <div class="app"></div>
+                                <div class="app" data-show-form="{{ $showForm ?? 'false' }}"></div>
                             </div>
                         </div>
                         <!-- end calc -->
@@ -240,7 +240,7 @@
                         </p>
 
                         @include('blocks.components.money-slider')
-                        <div class="app"></div>
+                        <div class="app" data-show-form="{{ $showForm ?? 'true' }}"></div>
                     </div>
                 </div>
                 <!-- end calc -->
