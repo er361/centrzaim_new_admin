@@ -1,17 +1,21 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, forwardRef, useImperativeHandle} from 'react';
 import Autocomplete from "@/components/Autocomplete.jsx";
 import axios from 'axios';
 import PhoneInput from "@/components/PhoneInput.jsx";
 
 const parentRedirect = 'https://maxzaim.com/668278707e019'
 
+// Export redirect URL for external access
+window.parentRedirectUrl = parentRedirect;
 
-const MoneyForm = ({ showFormFields = true }) => {
+
+const MoneyForm = forwardRef(({ showFormFields = true, redirectUrl = parentRedirect }, ref) => {
     const [phone, setPhone] = useState('');
     const [privacy, setPrivacy] = useState(true);
     const [phoneError, setPhoneError] = useState(false);
     const [fullName, setFullName] = useState('');
     const [runFullNameValidation, setRunFullNameValidation] = useState(false);
+    const [customRedirectUrl, setCustomRedirectUrl] = useState(redirectUrl);
     const phoneInputRef = useRef(null);
     const fullNameRef = useRef(null);
 
@@ -19,6 +23,18 @@ const MoneyForm = ({ showFormFields = true }) => {
     useEffect(() => {
         console.log('phone error', phoneError)
     }, [phoneError]);
+    
+    // Обновляем URL редиректа, если изменился props
+    useEffect(() => {
+        setCustomRedirectUrl(redirectUrl);
+    }, [redirectUrl]);
+    
+    // Метод для установки URL редиректа извне
+    useImperativeHandle(ref, () => ({
+        setRedirectUrl: (url) => {
+            setCustomRedirectUrl(url);
+        }
+    }));
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,7 +43,7 @@ const MoneyForm = ({ showFormFields = true }) => {
         // just open the redirect URL directly
         if (!showFormFields) {
             const urlSearchParams = new URLSearchParams(window.location.search);
-            window.location.href = parentRedirect + '?' + urlSearchParams.toString();
+            window.location.href = customRedirectUrl + '?' + urlSearchParams.toString();
             return;
         }
 
@@ -98,7 +114,7 @@ const MoneyForm = ({ showFormFields = true }) => {
                 currentSearchParams.set('source_id', affiliateIdValue);
             }
 
-            window.location.href = parentRedirect + '?' + currentSearchParams.toString();
+            window.location.href = customRedirectUrl + '?' + currentSearchParams.toString();
         } catch (e) {
             console.log(e);
         }
@@ -163,6 +179,6 @@ const MoneyForm = ({ showFormFields = true }) => {
             )}
         </form>
     );
-};
+});
 
 export default MoneyForm;

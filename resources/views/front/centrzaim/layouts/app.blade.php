@@ -1,7 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
+@props(['hasTimer' => true])
+        <!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="yandex-verification" content="6a1a5b68d9cdc5c6"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,17 +22,22 @@
     {{--    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">--}}
     <title>Хорошие займы онлайн 24/7 - Центр займов!</title>
     <link rel="stylesheet" href="/assets/ctr/css/nouislider.min.css">
-    <link rel="icon" href="{{ asset('assets/ctr/img/svg/favicon.png') }}" type="image/x-icon">
-    @viteReactRefresh
-    @vite('resources/assets/projects/ctr/css/style.css',)
-    @viteReactRefresh
-    @vite('resources/assets/projects/ctr/css/app.css')
+    <link rel="icon" href="{{ asset('/assets/ctr/img/svg/favicon.png') }}" type="image/x-icon">
+    @vite([
+                'resources/assets/projects/ctr/css/app.css',
+                'resources/assets/projects/ctr/css/style.css',
+        ])
+    @yield('head_scripts')
 </head>
-<header class="header">
+<body class="font-body text-black-text">
+<header class="container sm:px-8 px-2 sm:py-2 py-4 flex flex-row justify-between
+sm:gap-8 gap-4  sm:text-base text-sm">
+
     <div class="header__container container">
         <div class="header__logo logo">
             <a href="{{route('front.index')}}"><img src="/assets/ctr/img/logo.svg" alt="Социальный займ"></a>
         </div>
+        @yield('header')
         <div class="header__menu">
             @php
                 // Проверяем, находимся ли мы на главной странице
@@ -66,8 +76,12 @@
             </svg>
         </button>
     </div>
+    @if(auth()->check())
+        <div class="hidden md:block">
+            @include('blocks.logout')
+        </div>
+    @endif
 </header>
-@yield('content')
 <!-- begin footer -->
 <footer class="footer">
     <div class="container">
@@ -166,87 +180,81 @@
         </div>
     </div>
 </div>
-<!-- end footer -->
-<!-- Yandex.Metrika counter -->
-<script defer type="text/javascript">
-    function getParameterByName(name) {
-        const url = new URL(window.location.href);
-        return url.searchParams.get(name);
+<script src="/assets/ctr/js/nouislider.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
+<script type="text/javascript">
+    const frontConfig = {
+        routeName: @json(request()->route()->getName()),
+        dadataToken: @json($dadataToken),
+        sliderSumm: @json($sliderSumm),
+        isRedirectEnabled: @json($isRedirectEnabled),
+        redirectUrl: @json($redirectUrl),
+        redirectDelay: @json($redirectDelay),
+    };
+    console.log('front config', frontConfig);
+
+    function redirect(event, redirectUrl) {
+        if (!frontConfig.isRedirectEnabled)
+            return;
+
+        if (frontConfig.redirectUrl)
+            redirectUrl = frontConfig.redirectUrl;
+
+
+        // Позволяем открыть форму в новой вкладке
+        setTimeout(() => {
+            window.location.href = redirectUrl;
+        }, frontConfig.redirectDelay); // Задержка 100 мс для гарантии
     }
-    // Получаем идентификатор счетчика из параметра URL
-    const ym_id = getParameterByName('ym_id');
+
+</script>
+
+@vite('resources/assets/js/app.js')
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" defer>
+
+    // Получаем текущий URL
+    const currentUrl = window.location.pathname;
+
+    // Устанавливаем таймаут в зависимости от URL
+    const delay = currentUrl.includes('/register') ? 4000 : 0;
+    console.log('delay', delay);
 
     window.addEventListener('load', function () {
-        setTimeout(function () {
+        setTimeout(() => {
             (function (m, e, t, r, i, k, a) {
                 m[i] = m[i] || function () {
-                    (m[i].a = m[i].a || []).push(arguments);
+                    (m[i].a = m[i].a || []).push(arguments)
                 };
                 m[i].l = 1 * new Date();
-                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
-            })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-            //default counter
-            ym(96714912, "init", {
+                for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) {
+                        return;
+                    }
+                }
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+            })
+
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            ym(99015882, "init", {
                 clickmap: true,
                 trackLinks: true,
                 accurateTrackBounce: true,
                 webvisor: true
             });
+        }, delay);
 
-            // Если идентификатор найден, инициализируем счетчик
-            console.info('Идентификатор ym_id:', ym_id);
-            if (ym_id) {
-                ym(ym_id, "init", {
-                    clickmap: true,
-                    trackLinks: true,
-                    accurateTrackBounce: true,
-                    webvisor: true
-                });
-            } else {
-                console.warn('Идентификатор ym_id не найден в URL');
-            }
-        }, 4000);
     });
+
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/96714912" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/99015882" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
-<!-- /Yandex.Metrika counter -->
-<!-- Top.Mail.Ru counter -->
-<script defer type="text/javascript">
-    var _tmr = window._tmr || (window._tmr = []);
-    _tmr.push({id: "3493619", type: "pageView", start: (new Date()).getTime(), pid: "USER_ID"});
-    window.addEventListener('load', function () {
-        setTimeout(function () {
-            (function (d, w, id) {
-                if (d.getElementById(id)) return;
-                var ts = d.createElement("script");
-                ts.type = "text/javascript";
-                ts.async = true;
-                ts.defer = true;
-                ts.id = id;
-                ts.src = "https://top-fwz1.mail.ru/js/code.js";
-                var f = function () {
-                    var s = d.getElementsByTagName("script")[0];
-                    s.parentNode.insertBefore(ts, s);
-                };
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "tmr-code");
-        }, 4000);
-    });
-</script>
-<noscript>
-    <div><img src="https://top-fwz1.mail.ru/counter?id=3493619;js=na" style="position:absolute;left:-9999px;"
-              alt="Top.Mail.Ru"/></div>
-</noscript>
-<script defer src="/assets/ctr/js/nouislider.min.js"></script>
-@viteReactRefresh
-@vite(['resources/assets/projects/ctr/js/scripts.js', 'resources/assets/projects/ctr/js/app.jsx'])
-<!-- /Top.Mail.Ru counter -->
+
 @yield('scripts')
+<!-- /Yandex.Metrika counter -->
+
 </body>
 </html>

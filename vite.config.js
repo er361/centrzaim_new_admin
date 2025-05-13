@@ -9,7 +9,6 @@ export default defineConfig({
             input: [
                 'resources/assets/projects/ctr/css/app.css',
                 'resources/assets/projects/ctr/css/style.css',
-                'resources/assets/projects/ctr/js/app.js',
                 'resources/assets/projects/ctr/js/lib/lib.js',
                 'resources/assets/projects/ctr/js/app.jsx',
                 'resources/assets/projects/ctr/js/scripts.js',
@@ -39,27 +38,27 @@ export default defineConfig({
             '@': '/resources/assets/projects/ctr/js',
         },
     },
-    server: {
-        host: '0.0.0.0',
-        port: 5173,
-        hmr: {
-            host: 'localhost',
-        },
-        cors: {
-            origin: '*',
-            methods: ['GET', 'POST', 'PUT', 'DELETE'],
-            allowedHeaders: ['Content-Type', 'Authorization'],
-        },
-        proxy: {
-            // '/assets/ctr/fonts': {
-            //     target: 'http://localhost:80', // Laravel работает на порту 80
-            //     changeOrigin: true,
-            //     rewrite: (path) => path.replace(/^\/assets\/ctr\/fonts/, '/assets/ctr/fonts'),
-            // },
-            '/assets/ctr/imgs': {
-                target: 'http://localhost',
-                rewrite: (path) => path.replace(/^\/assets\/ctr\/imgs/, '/assets/ctr/imgs'),
-            },
-        }
-    },
+    // server: {
+    //     host: '0.0.0.0',
+    //     port: 5173,
+    //     hmr: {
+    //         host: 'localhost',
+    //     },
+    //     cors: {
+    //         origin: '*',
+    //         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    //         allowedHeaders: ['Content-Type', 'Authorization'],
+    //     },
+    //     proxy: {
+    //         // '/assets/ctr/fonts': {
+    //         //     target: 'http://localhost:80', // Laravel работает на порту 80
+    //         //     changeOrigin: true,
+    //         //     rewrite: (path) => path.replace(/^\/assets\/ctr\/fonts/, '/assets/ctr/fonts'),
+    //         // },
+    //         '/assets/ctr/imgs': {
+    //             target: 'http://localhost',
+    //             rewrite: (path) => path.replace(/^\/assets\/ctr\/imgs/, '/assets/ctr/imgs'),
+    //         },
+    //     }
+    // },
 });

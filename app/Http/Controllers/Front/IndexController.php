@@ -22,6 +22,8 @@ class IndexController extends Controller
         $redirectMainPage = $redirectMainPage && Arr::get($settings, 'is_redirect_enabled', '0');
 
         $showForm = 'false';
-        return view('pages.index', compact('redirectMainPage', 'showForm'));
+        $redirectUrl = Arr::get($settings, 'redirect_url', '');
+
+        return view('pages.index', compact('redirectMainPage', 'showForm', 'redirectUrl'));
     }
 }

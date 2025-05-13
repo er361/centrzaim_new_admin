@@ -1,4 +1,13 @@
-<button data-next  type="submit" class="money-btn bg-blue text-white text-center sm:w-auto w-full min-w-[313px] h-[60px]
-                    px-14 sm:py-3 py-3 rounded-2xl cursor-pointer text-lg {{$class ?? ''}}">
-    {{$btnText ?? 'Получить деньги'}}
+@props(['activeBtn' => false, 'onClick' => ''])
+<button
+        onclick="{{$onClick}}"
+        class="money-btn bg-black-text text-white text-center sm:w-auto w-full
+                    px-14 sm:py-3 py-3 rounded cursor-pointer text-lg {{$class ?? ''}}"
+        @if($activeBtn)
+            :class="{'opacity-30': !isActive()}"
+            :disabled="!isActive()"
+        @endif
+
+>
+    {{$btnText ?? 'Отправить заявку'}}
 </button>

@@ -31,7 +31,7 @@ class ActivationController extends Controller
      */
     public function index(Request $request, ActivationServiceInterface $activationService)
     {
-        return view('front.miazaim.account.activation');
+        return view('front.centrzaim.account.activation');
     }
 
     /**
@@ -61,7 +61,7 @@ class ActivationController extends Controller
         /** @var User $user */
         $user = Auth::user();
         
-        return view('front.miazaim.account.telegram_activation', [
+        return view('front.centrzaim.account.telegram_activation', [
             'phone' => $user->mphone
         ]);
     }
@@ -93,12 +93,12 @@ class ActivationController extends Controller
                 'line' => $e->getLine(),
                 'trace' => Str::limit($e->getTraceAsString(), 1000),
             ]);
-            return view('front.miazaim.account.sms_activation')->withErrors([
+            return view('front.centrzaim.account.sms_activation')->withErrors([
                 self::ERROR_MESSAGE,
             ]);
         }
 
-        return view('front.miazaim.account.sms_activation', [
+        return view('front.centrzaim.account.sms_activation', [
             'phone' => $user->mphone,
         ]);
     }
