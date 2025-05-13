@@ -17,3 +17,5 @@ yarn-error.log
 .php-cs-fixer.cache
 xdebug.log
 
+
+**/.claude/settings.local.json
