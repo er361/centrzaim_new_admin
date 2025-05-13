@@ -29,7 +29,7 @@
         ])
     @yield('head_scripts')
 </head>
-<body class="font-body text-black-text">
+<body>
 <header class="container sm:px-8 px-2 sm:py-2 py-4 flex flex-row justify-between
 sm:gap-8 gap-4  sm:text-base text-sm">
 
@@ -82,6 +82,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
         </div>
     @endif
 </header>
+@yield('content')
 <!-- begin footer -->
 <footer class="footer">
     <div class="container">
@@ -209,7 +210,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
 
 </script>
 
-@vite('resources/assets/js/app.js')
+@vite('resources/assets/projects/ctr/js/scripts.js')
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" defer>
@@ -255,6 +256,36 @@ sm:gap-8 gap-4  sm:text-base text-sm">
 
 @yield('scripts')
 <!-- /Yandex.Metrika counter -->
+
+<script>
+    // Smooth scrolling for all anchor links
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all links with hash
+        const links = document.querySelectorAll('a[href^="#"]');
+
+        // Add click event to each link
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Only if the hash is not empty (not just '#')
+                if(this.hash.length > 1) {
+                    e.preventDefault();
+
+                    const target = document.querySelector(this.hash);
+                    if(target) {
+                        // Smooth scroll to the target
+                        window.scrollTo({
+                            top: target.offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update URL hash without scrolling
+                        history.pushState(null, null, this.hash);
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
