@@ -1,0 +1,71 @@
+/* Основной контейнер подсказок */
+.suggestions-wrapper {
+    position: absolute;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    z-index: 1000;
+    /*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);*/
+}
+
+/* Контейнер для списка подсказок */
+.suggestions-suggestions {
+    max-height: 200px; /* Ограничение высоты */
+    overflow-y: auto;
+}
+
+/* Стиль подсказки */
+.suggestions-suggestion {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Ховер эффект для подсказки */
+.suggestions-suggestion:hover {
+    background-color: #f7f7f7;
+}
+
+/* Выбранная подсказка */
+.suggestions-suggestion.suggestions-selected {
+    background-color: #e6f7ff; /* Синий оттенок */
+    font-weight: bold;
+}
+
+/* Подсказка-хинт (пояснение) */
+.suggestions-hint {
+    padding: 10px;
+    font-size: 12px;
+    color: #888;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Прелоадер (иконка загрузки) */
+.suggestions-preloader {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    /*background: url('/path/to/loader.gif') no-repeat center center; !* Укажите путь к прелоадеру *!*/
+    display: none; /* Скрыт по умолчанию */
+}
+
+/* Список ограничений */
+.suggestions-constraints {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Подсветка совпадений */
+.suggestions-suggestion strong {
+    color: #ff5722; /* Оранжевый цвет */
+    font-weight: bold;
+}
