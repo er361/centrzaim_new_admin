@@ -21,21 +21,17 @@
         </div>
     </div>
 </div>
-
-@if($getMoneyBtn ?? true)
-    <div class="get-money-wrapper flex flex-col gap-2">
-        <div class="flex flex-row justify-center w-full">
-            @include('blocks/components/get-money-btn')
-        </div>
-        @if($afterBtnText ?? true)
-            <div class="text-[9px] text-center max-w-[842px] mx-auto opacity-55 flex flex-col gap-2 mt-4">
-                <span>
-                    Сервис осуществляет подбор микрозаймов между лицом, желающим оформить займ и кредитными
-                    учреждениями. Вы оформляете подписку стоимостью {{config('payments_miazaim.monthly.amount')}}₽ в месяц согласно тарифам.
-                    Оформление подписки не гарантирует получение займа.
-            </span>
-            </div>
-
-        @endif
+<div class="flex flex-col sm:flex-row gap-4 w-full">
+    <div class="flex flex-row justify-start">
+        <button class="money-btn bg-blue text-white text-center
+                            xl:w-auto w-full min-w-[280px] h-[60px]
+                            px-14 sm:py-3 py-3 rounded-2xl cursor-pointer text-lg">
+            Получить деньги
+        </button>
     </div>
-@endif
+    <div class="flex flex-row items-center justify-center gap-2">
+        <img src="/assets/ctr/img/new-site/checkbox-blue.svg" class="size-[20px]" alt="checkbox"/>
+        <span class="text-sm text-center opacity-55">Быстро и надежно</span>
+    </div>
+</div>
+

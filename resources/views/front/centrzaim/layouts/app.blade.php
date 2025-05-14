@@ -23,11 +23,17 @@
     <title>Хорошие займы онлайн 24/7 - Центр займов!</title>
     <link rel="stylesheet" href="/assets/ctr/css/nouislider.min.css">
     <link rel="icon" href="{{ asset('/assets/ctr/img/svg/favicon.png') }}" type="image/x-icon">
+    {{-- Вручную подключаем @vite/client безопасно --}}
+    @viteReactRefresh
     @vite([
                 'resources/assets/projects/ctr/css/app.css',
                 'resources/assets/projects/ctr/css/style.css',
+                'resources/assets/projects/ctr/js/scripts.js',
+                'resources/assets/projects/ctr/js/app.jsx'
         ])
+
     @yield('head_scripts')
+
 </head>
 <body>
 <header class="container sm:px-8 px-2 sm:py-2 py-4 flex flex-row justify-between
@@ -81,6 +87,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
             @include('blocks.logout')
         </div>
     @endif
+
 </header>
 @yield('content')
 <!-- begin footer -->
@@ -209,8 +216,6 @@ sm:gap-8 gap-4  sm:text-base text-sm">
     }
 
 </script>
-
-@vite('resources/assets/projects/ctr/js/scripts.js')
 
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" defer>

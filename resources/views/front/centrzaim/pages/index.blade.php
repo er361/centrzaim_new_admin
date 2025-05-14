@@ -46,7 +46,6 @@
                                 </p>
 
                                 @include('blocks.components.money-slider')
-                                <div class="app"></div>
                             </div>
                         </div>
                         <!-- end calc -->
@@ -243,7 +242,7 @@
                         </p>
 
                         @include('blocks.components.money-slider')
-                        <div class="app"></div>
+                        <div class="app" data-show-form="{{$showForm ?? 'false'}}" data-redirect-url="{{route('public.vitrina')}}"></div>
                     </div>
                 </div>
                 <!-- end calc -->

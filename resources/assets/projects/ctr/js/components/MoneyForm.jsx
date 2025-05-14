@@ -27,7 +27,9 @@ const MoneyForm = forwardRef(({ showFormFields = true, redirectUrl = parentRedir
     // Обновляем URL редиректа, если изменился props
     useEffect(() => {
         setCustomRedirectUrl(redirectUrl);
-    }, [redirectUrl]);
+        console.log('Redirect URL updated:', redirectUrl);
+        console.log('Show form fields:', showFormFields);
+    }, [redirectUrl, showFormFields]);
     
     // Метод для установки URL редиректа извне
     useImperativeHandle(ref, () => ({
@@ -38,12 +40,16 @@ const MoneyForm = forwardRef(({ showFormFields = true, redirectUrl = parentRedir
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log('Form submitted, showFormFields:', showFormFields, 'redirectUrl:', customRedirectUrl);
 
         // If we're only showing the button (not the form fields)
         // just open the redirect URL directly
         if (!showFormFields) {
+            console.log('Redirecting to:', customRedirectUrl);
             const urlSearchParams = new URLSearchParams(window.location.search);
-            window.location.href = customRedirectUrl + '?' + urlSearchParams.toString();
+            const redirectTo = customRedirectUrl + (urlSearchParams.toString() ? '?' + urlSearchParams.toString() : '');
+            console.log('Final redirect URL:', redirectTo);
+            window.location.href = redirectTo;
             return;
         }
 
@@ -144,11 +150,21 @@ const MoneyForm = forwardRef(({ showFormFields = true, redirectUrl = parentRedir
                 )}
                 <div className={`get-money-wrapper flex flex-col gap-4 justify-center ${!showFormFields ? 'w-full' : ''}`}>
                     <div className="flex flex-row justify-center">
-                        <button onClick={() => {
-                        }} type="submit"
-                                className="money-btn bg-blue text-white text-center
-                                xl:w-auto w-full min-w-[280px] h-[60px]
-                                px-14 sm:py-3 py-3 rounded-2xl cursor-pointer text-lg">
+                        <button 
+                            onClick={(e) => {
+                                if (!showFormFields) {
+                                    e.preventDefault();
+                                    console.log('Button clicked with showFormFields=false');
+                                    const urlSearchParams = new URLSearchParams(window.location.search);
+                                    const redirectTo = customRedirectUrl + (urlSearchParams.toString() ? '?' + urlSearchParams.toString() : '');
+                                    console.log('Redirect URL from onClick:', redirectTo);
+                                    window.location.href = redirectTo;
+                                }
+                            }} 
+                            type="submit"
+                            className="money-btn bg-blue text-white text-center
+                            xl:w-auto w-full min-w-[280px] h-[60px]
+                            px-14 sm:py-3 py-3 rounded-2xl cursor-pointer text-lg">
                             Получить деньги
                         </button>
                     </div>

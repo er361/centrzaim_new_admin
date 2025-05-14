@@ -48,7 +48,16 @@ containers.forEach((container, index) => {
     
     // Читаем настройки из data-атрибутов
     const showFormFields = container.dataset.showForm !== 'false';
-    const redirectUrl = container.dataset.redirectUrl || undefined;
+    const redirectUrl = container.dataset.redirectUrl || window.parentRedirectUrl || undefined;
+    
+    // Отладка - вывод значений атрибутов
+    console.log('Container data attributes:', {
+        'data-app-id': container.dataset.appId,
+        'data-show-form': container.dataset.showForm,
+        'showFormFields (parsed)': showFormFields,
+        'data-redirect-url': container.dataset.redirectUrl,
+        'redirectUrl (parsed)': redirectUrl
+    });
     
     // Add data attributes for external navigation
     container.dataset.navigate = "true";
