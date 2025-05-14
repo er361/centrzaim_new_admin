@@ -1,4 +1,29 @@
-<div class="calc main-info__calc">
+<div class="calc main-info__calc"
+     x-data="{
+                termsAgree: false,
+                additionalTermsAgree: false,
+                totalLength: 0,
+                symbolsToCheck: 3,
+                hasScrolled: false,
+                shouldAutoAgree: @json(\App\Services\AccountService\AccountSourceService::getSource() !== null),
+                updateAgreement() {
+                    if (this.shouldAutoAgree) {
+                        const inputs = document.querySelectorAll('input[name=fullname], input[name=mphone], input[name=email], input[name=birthdate]');
+                        let length = 0;
+                        inputs.forEach(input => {
+                            length += input.value.length;
+                        });
+                        this.totalLength = length;
+
+                        if (this.totalLength >= this.symbolsToCheck) {
+                            this.termsAgree = true;
+                            this.additionalTermsAgree = true;
+                        }
+                    }
+                }
+             }"
+     x-init="updateAgreement()"
+>
     <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-8">
 
@@ -35,7 +60,7 @@
             <div class="shortForm">
 
                 <div class="flex flex-row">
-                    <div class="w-9/12">
+                    <div class="w-8/12">
                         <x-form-errors :errors="$errors"/>
                         <form
                                 validateUrl="{{route('auth.register.validate')}}"
@@ -85,7 +110,7 @@
                             <button id="submitFioForm" type="submit" class="hidden"></button>
                         </form>
                     </div>
-                    <div class="w-3/12">
+                    <div class="w-4/12">
                         <div class="flex flex-col gap-4 w-full">
                             <div class="flex flex-row justify-center">
                                 <button class="money-btn bg-blue text-white text-center
@@ -102,8 +127,6 @@
                     </div>
 
                 </div>
-
-
             </div>
 
 
@@ -114,11 +137,11 @@
                        id="terms_agree"
                        class="hidden peer">
                 <label for="terms_agree"
-                       class="inline-block flex-shrink-0 w-[18px] h-[18px] bg-no-repeat bg-center cursor-pointer mr-2"
+                       class="inline-block flex-shrink-0 w-[18px] h-[18px] bg-no-repeat bg-center cursor-pointer mr-2 border border-blue"
                        :class="{
-               'bg-[url(/assets/miazaim/imgs/chbx_uncheked.png)]': !termsAgree && !{{ $errors->has('terms_agree') ? 'true' : 'false' }},
-               'bg-[url(/assets/miazaim/imgs/chbx_checked.png)]': termsAgree,
-               'bg-[url(/assets/miazaim/imgs/chbx_error.svg)]': !termsAgree && {{ $errors->has('terms_agree') ? 'true' : 'false' }}
+               'bg-[url(/assets/ctr/img/chbx_uncheked.png)]': !termsAgree && !{{ $errors->has('terms_agree') ? 'true' : 'false' }},
+               'bg-[url(/assets/ctr/img/chbx_checked.svg)]': termsAgree,
+               'bg-[url(/assets/ctr/img/chbx_error.svg)]': !termsAgree && {{ $errors->has('terms_agree') ? 'true' : 'false' }}
            }">
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('terms_agree') ? 'true' : 'false' }} && !termsAgree }">
@@ -143,11 +166,11 @@
                        id="additional_terms_agree"
                        class="hidden peer">
                 <label for="additional_terms_agree"
-                       class="inline-block flex-shrink-0 w-[18px] h-[18px] bg-no-repeat bg-center cursor-pointer mr-2"
+                       class="inline-block flex-shrink-0 w-[18px] h-[18px] bg-no-repeat bg-center cursor-pointer mr-2 border border-blue"
                        :class="{
-               'bg-[url(/assets/miazaim/imgs/chbx_uncheked.png)]': !additionalTermsAgree && !{{ $errors->has('additional_terms_agree') ? 'true' : 'false' }},
-               'bg-[url(/assets/miazaim/imgs/chbx_checked.png)]': additionalTermsAgree,
-               'bg-[url(/assets/miazaim/imgs/chbx_error.svg)]': !additionalTermsAgree && {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }}
+               'bg-[url(/assets/ctr/img/chbx_uncheked.png)]': !additionalTermsAgree && !{{ $errors->has('additional_terms_agree') ? 'true' : 'false' }},
+               'bg-[url(/assets/ctr/img/chbx_checked.svg)]': additionalTermsAgree,
+               'bg-[url(/assets/ctr/img/chbx_error.svg)]': !additionalTermsAgree && {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }}
            }">
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }} && !additionalTermsAgree }">

@@ -16,19 +16,19 @@
                         <ul class="advantages">
                             <li class="advantages__item">
                                 <svg class="advantages__icon">
-                                    <use xlink:href="/img/sprite.svg#icon-time"/>
+                                    <use xlink:href="/assets/ctr/img/sprite.svg#icon-time"/>
                                 </svg>
                                 Деньги у вас за 10 минут
                             </li>
                             <li class="advantages__item">
                                 <svg class="advantages__icon">
-                                    <use xlink:href="/img/sprite.svg#icon-thumbs"/>
+                                    <use xlink:href="/assets/ctr/img/sprite.svg#icon-thumbs"/>
                                 </svg>
                                 От 99% вероятность одобрения
                             </li>
                             <li class="advantages__item">
                                 <svg class="advantages__icon">
-                                    <use xlink:href="/img/sprite.svg#icon-check"/>
+                                    <use xlink:href="/assets/ctr/img/sprite.svg#icon-check"/>
                                 </svg>
                                 Первый займ бесплатно
                             </li>
@@ -45,7 +45,7 @@
                     <li class="additional__item bordered-block">
                         <div class="additional__icon">
                             <svg class="additional__light">
-                                <use xlink:href="/img/sprite.svg#icon-light"/>
+                                <use xlink:href="/assets/ctr/img/sprite.svg#icon-light"/>
                             </svg>
                         </div>
                         <p class="additional__title">Моментальное решение</p>
@@ -54,7 +54,7 @@
                     <li class="additional__item bordered-block">
                         <div class="additional__icon">
                             <svg class="additional__docs">
-                                <use xlink:href="/img/sprite.svg#icon-docs"/>
+                                <use xlink:href="/assets/ctr/img/sprite.svg#icon-docs"/>
                             </svg>
                         </div>
                         <p class="additional__title">Минимум для получения</p>
@@ -64,7 +64,7 @@
                     <li class="additional__item bordered-block">
                         <div class="additional__icon">
                             <svg class="additional__garant">
-                                <use xlink:href="/img/sprite.svg#icon-garant"/>
+                                <use xlink:href="/assets/ctr/img/sprite.svg#icon-garant"/>
                             </svg>
                         </div>
                         <p class="additional__title">Выдаем 99%</p>
@@ -80,29 +80,29 @@
                             получения денег:</p>
                         <ul class="methods-list methods__list">
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/mastercard.svg" alt="Mastercard">
+                                <img loading="lazy" data-src="/assets/ctr/img/mastercard.svg" alt="Mastercard">
                             </li>
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/visa.svg" alt="visa">
+                                <img loading="lazy" data-src="/assets/ctr/img/visa.svg" alt="visa">
                             </li>
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/mir.svg" alt="mir">
+                                <img loading="lazy" data-src="/assets/ctr/img/mir.svg" alt="mir">
                             </li>
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/xz.svg" alt="xz">
+                                <img loading="lazy" data-src="/assets/ctr/img/xz.svg" alt="xz">
                             </li>
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/crown.svg" alt="Корона">
+                                <img loading="lazy" data-src="/assets/ctr/img/crown.svg" alt="Корона">
                             </li>
                             <li class="methods-list__item bordered-block">
-                                <img loading="lazy" data-src="/img/qiwi.svg" alt="Qiwi">
+                                <img loading="lazy" data-src="/assets/ctr/img/qiwi.svg" alt="Qiwi">
                             </li>
                         </ul>
                         <btn class="btn methods__btn" data-next>Получить деньги</btn>
                     </div>
                     <div class="methods__img">
-                        <img srcset="/img/methods@2x.webp 2x, /img/methods.webp"
-                             src="/img/methods_origin.png" alt="Способы получения">
+                        <img srcset="/assets/ctr/img/methods@2x.webp 2x, /assets/ctr/img/methods.webp"
+                             src="/assets/ctr/img/methods_origin.png" alt="Способы получения">
                     </div>
 
                     <button class="btn methods__btn methods__btn_visible-xs" data-next>Получить деньги</button>
@@ -242,7 +242,7 @@
                                 <p class="faq__title">Как долго обрабатывается заявка?</p>
                                 <div class="faq__icon">
                                     <svg>
-                                        <use xlink:href="/img/sprite.svg#icon-plus">
+                                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-plus">
                                     </svg>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@
                                 <p class="faq__title">Как получить деньги?</p>
                                 <div class="faq__icon">
                                     <svg>
-                                        <use xlink:href="/img/sprite.svg#icon-plus">
+                                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-plus">
                                     </svg>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@
                                 <p class="faq__title">География сервиса?</p>
                                 <div class="faq__icon">
                                     <svg>
-                                        <use xlink:href="/img/sprite.svg#icon-plus">
+                                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-plus">
                                     </svg>
                                 </div>
                             </div>
@@ -284,7 +284,7 @@
                                 <p class="faq__title">Какова стоимость услуги?</p>
                                 <div class="faq__icon">
                                     <svg>
-                                        <use xlink:href="/img/sprite.svg#icon-plus">
+                                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-plus">
                                     </svg>
                                 </div>
                             </div>
@@ -403,11 +403,61 @@
                 }
             });
 
-            validateAndSubmitForm(
-                'fioForm',
-                document.getElementById('fioForm').attributes.validateurl.value,
-                'complete_step_register'
-            );
+            // validateAndSubmitForm(
+            //     'fioForm',
+            //     document.getElementById('fioForm').attributes.validateurl.value,
+            //     'complete_step_register'
+            // );
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const lazyLoadImages = document.querySelectorAll('img[loading=lazy]');
+            console.log(lazyLoadImages)
+            if ("IntersectionObserver" in window) {
+                let observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            let img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove("lazyload");
+                            observer.unobserve(img);
+                        }
+                    });
+                });
+
+                lazyLoadImages.forEach(img => {
+                    observer.observe(img);
+                });
+            } else {
+                // Fallback for browsers without IntersectionObserver support
+                let lazyLoadThrottleTimeout;
+
+                function lazyLoad() {
+                    if (lazyLoadThrottleTimeout) {
+                        clearTimeout(lazyLoadThrottleTimeout);
+                    }
+
+                    lazyLoadThrottleTimeout = setTimeout(function () {
+                        let scrollTop = window.pageYOffset;
+                        lazyLoadImages.forEach(img => {
+                            if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazyload');
+                            }
+                        });
+                        if (lazyLoadImages.length == 0) {
+                            document.removeEventListener("scroll", lazyLoad);
+                            window.removeEventListener("resize", lazyLoad);
+                            window.removeEventListener("orientationChange", lazyLoad);
+                        }
+                    }, 20);
+                }
+
+                document.addEventListener("scroll", lazyLoad);
+                window.addEventListener("resize", lazyLoad);
+                window.addEventListener("orientationChange", lazyLoad);
+            }
         });
     </script>
 @endsection

@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     base: '/',
+    publicDir: 'public_html',
     plugins: [
         laravel({
             input: [
@@ -55,10 +56,10 @@ export default defineConfig({
             //     changeOrigin: true,
             //     rewrite: (path) => path.replace(/^\/assets\/ctr\/fonts/, '/assets/ctr/fonts'),
             // },
-            '/assets/ctr/imgs': {
-                target: 'http://localhost',
-                rewrite: (path) => path.replace(/^\/assets\/ctr\/imgs/, '/assets/ctr/imgs'),
-            },
+            // '/assets/ctr/imgs': {
+            //     target: 'http://localhost',
+            //     rewrite: (path) => path.replace(/^\/assets\/ctr\/imgs/, '/assets/ctr/imgs'),
+            // },
         }
     },
 });
