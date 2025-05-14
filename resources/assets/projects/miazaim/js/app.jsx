@@ -12,11 +12,21 @@ root.render(
     <>
         <Autocomplete
             inputClass={container.getAttribute('inputClassName')}
-            onChangeListener={(val) => hiddenInput.value = val}
+            onChangeListener={(val) => {
+                hiddenInput.value = val;
+                // Trigger the input event to make Alpine.js updateAgreement run
+                const inputEvent = new Event('input', { bubbles: true });
+                hiddenInput.dispatchEvent(inputEvent);
+            }}
             initialQuery={() => {
                 let attribute = hiddenInput.getAttribute('initial-query');
                 console.log('init query', attribute);
-                return attribute ?? ''
+                const initialValue = attribute ?? '';
+                // Set initial value to hidden input
+                if (initialValue) {
+                    hiddenInput.value = initialValue;
+                }
+                return initialValue;
             }}
             hasErrors={(error) => {
                 console.log('set error', error)

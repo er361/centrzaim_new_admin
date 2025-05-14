@@ -29,6 +29,7 @@ $v1FillSteps = [
 
 $v2RegisterFields = [
     'mphone',
+    'fullname',
 ];
 
 $v2FillSteps = [

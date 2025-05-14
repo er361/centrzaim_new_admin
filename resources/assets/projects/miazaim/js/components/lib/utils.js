@@ -9,17 +9,25 @@ export const renderName = (name, match) => {
 };
 
 export const validateFullName = (fullName) => {
-    const parts = fullName.trim().split(' ');
+    const fullNameTrimmed = fullName.trim();
+    const parts = fullNameTrimmed.split(' ');
     const errors = [];
-
-    if (parts.length < 1 || parts[0].length === 0 || parts[0].length < 3) {
-        errors.push('Фамилию (не менее 3 символов)');
+    
+    // Check if the total length is at least 3 symbols
+    if (fullNameTrimmed.length < 3) {
+        errors.push('ФИО (не менее 3 символов)');
+        return errors;
     }
-    if (parts.length < 2 || parts[1].length === 0 || parts[1].length < 3) {
-        errors.push('Имя (не менее 3 символов)');
+    
+    // If the total length is sufficient but parts are missing, still show detailed errors
+    if (parts.length < 1 || parts[0].length === 0) {
+        errors.push('Фамилию');
     }
-    if (parts.length < 3 || parts[2].length === 0 || parts[2].length < 3) {
-        errors.push('Отчество (не менее 3 символов)');
+    if (parts.length < 2 || parts[1].length === 0) {
+        errors.push('Имя');
+    }
+    if (parts.length < 3 || parts[2].length === 0) {
+        errors.push('Отчество');
     }
 
     return errors;

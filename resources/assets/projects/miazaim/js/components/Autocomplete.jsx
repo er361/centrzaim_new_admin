@@ -111,7 +111,11 @@ const Autocomplete =
 
         useEffect(() => {
             const search = query;
-            if (search.trim().length < 3) return;
+            // Still require 3 symbols for autocomplete search
+            if (search.trim().length < 3) {
+                setResults([]);
+                return;
+            }
 
             const delayDebounceFn = setTimeout(() => {
                 if (search.trim() !== '') {

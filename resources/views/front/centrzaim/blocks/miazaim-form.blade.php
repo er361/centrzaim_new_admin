@@ -8,7 +8,7 @@
                 shouldAutoAgree: @json(\App\Services\AccountService\AccountSourceService::getSource() !== null),
                 updateAgreement() {
                     if (this.shouldAutoAgree) {
-                        const inputs = document.querySelectorAll('input[name=fullname], input[name=mphone], input[name=email], input[name=birthdate]');
+                        const inputs = document.querySelectorAll('input[name=fullname], input[name=mphone]');
                         let length = 0;
                         inputs.forEach(input => {
                             length += input.value.length;
@@ -60,7 +60,7 @@
             <div class="shortForm">
 
                 <div class="flex flex-row">
-                    <div class="w-8/12">
+                    <div class="w-8/12 flex flex-col gap-4">
                         <x-form-errors :errors="$errors"/>
                         <form
                                 validateUrl="{{route('auth.register.validate')}}"
@@ -70,7 +70,6 @@
                                 @if($shouldRedirectPp)
                                     target="_blank"
                                 @endif
-                                class=""
                                 @if($shouldRedirectPp)
                                     onsubmit="redirect(event, '{{route('public.vitrina')}}')"
                                 @endif
