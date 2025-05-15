@@ -17,6 +17,7 @@ export default {
                 'red': '#F4555A',
                 'gray-bg': '#F3F3F7',
                 'blue': '#2F76E2',
+                'accent-gray': '#EDF2FE',
             },
             container: {
                 center: true,
