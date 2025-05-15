@@ -31,7 +31,7 @@
                 'resources/assets/projects/ctr/js/scripts.js',
                 'resources/assets/projects/ctr/js/app.jsx'
         ])
-
+    @yield('styles')
     @yield('head_scripts')
 
 </head>

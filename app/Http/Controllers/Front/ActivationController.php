@@ -48,7 +48,7 @@ class ActivationController extends Controller
         $telegramLink = $linkCreatorService->getTelegramBotLink($user);
 
         
-        return redirect()->route('account.activation.index', ['telegram_link' => $telegramLink]);
+        return redirect()->away($telegramLink);
     }
     
     /**
