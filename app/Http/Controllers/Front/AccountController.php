@@ -27,45 +27,14 @@ class AccountController extends Controller
     }
     /**
      * Главная страница аккаунта.
+     * Редирект на страницу витрины.
      *
      * @param LoanServiceBuilder $loanServiceBuilder
      * @param Request $request
-     * @return Factory|Application|View
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function dashboard(LoanServiceBuilder $loanServiceBuilder, Request $request): Application|Factory|View
+    public function dashboard(LoanServiceBuilder $loanServiceBuilder, Request $request)
     {
-        $profileData = UserProfileService::getProfileData(Auth::user());
-        $passportData = UserProfileService::getPassportData(Auth::user());
-
-        $webmasterId = request()->cookie('webmaster_id');
-        $webmaster = Webmaster::query()->whereApiId($webmasterId)->first();
-        $showcase = Showcase::find(Showcase::ID_PRIVATE);
-        $source = Source::find(Source::ID_LEADS);
-        $user = Auth::user();
-
-        $sourceShowcaseLoansEntity = $loanServiceBuilder
-            ->setSource($source)
-            ->setWebmaster($webmaster)
-            ->setUser($user)
-            ->setShowcase($showcase)
-            ->setSourceDomain($request->getHost())
-            ->getLoanService()
-            ->getSourceShowcaseLoans();
-
-        $offers = $this->userOfferService->getOffersNew(
-            $showcase,
-            $source,
-            $webmaster,
-            $user
-        );
-
-        return view('user.profile', [
-            'data' => [
-                'offers' => $offers,
-                'profile' => $profileData,
-                'passport' => $passportData,
-            ],
-            'sourceShowcaseLoansEntity' => $sourceShowcaseLoansEntity,
-        ]);
+        return redirect()->route('vitrina');
     }
 }
