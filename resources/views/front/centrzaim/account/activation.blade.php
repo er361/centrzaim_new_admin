@@ -14,7 +14,7 @@
             <h1 class="title main-info__title">Подтверждение аккаунта</h1>
 
 
-            <div class="container pt-10 sm:pb-36 pb-16 flex xl:flex-row justify-between flex-col bg-white rounded-3xl shadow-lg">
+            <div class="container pt-10 pb-16 flex xl:flex-row justify-between flex-col bg-white rounded-3xl shadow-lg">
 
                 <div class=" gap-8 flex flex-col py-5">
                     <div class="sm:text-3xl text-2xl font-semibold flex flex-col gap-2">
