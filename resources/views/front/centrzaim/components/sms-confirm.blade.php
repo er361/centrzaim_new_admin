@@ -49,7 +49,7 @@
                 </button>
                 
                 <div class="flex flex-col gap-2">
-                    <span>До повторной отправки кода: <span class="font-bold"><span
+                    <span class="font-bold font-body text-gray-1 text-center">До повторной отправки кода: <span class="font-bold"><span
                             x-text="waitTime"></span> сек</span></span>
                     @if($changeNumberUrl)
                         <a href="{{$changeNumberUrl}}" class="text-red">Изменить номер телефона</a>
@@ -57,12 +57,13 @@
                     <form method="GET" action="{{$resendCodeUrl}}">
                         @csrf
                         <button type="submit"
-                                class="text-[#484E63] font-bold text-sm text-center cursor-pointer"
+                                class="font-bold text-sm text-center cursor-pointer text-[#E64A70] text-center"
                                 :disabled="waitTime > 0"
                                 :class="{'opacity-50': waitTime > 0, 'opacity-100': waitTime === 0}"
                         >Выслать код повторно
                         </button>
                     </form>
+                    <a href="{{ route('account.activation.method.telegram') }}" class="font-bold font-body text-gray-1 text-center">Подтвердить через Telegram</a>
                 </div>
             </div>
         </div>

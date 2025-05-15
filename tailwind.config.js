@@ -18,6 +18,7 @@ export default {
                 'gray-bg': '#F3F3F7',
                 'blue': '#2F76E2',
                 'accent-gray': '#EDF2FE',
+                'gray-1' : '#484E63'
             },
             container: {
                 center: true,
