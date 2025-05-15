@@ -63,7 +63,7 @@
                         >Выслать код повторно
                         </button>
                     </form>
-                    <a href="{{ route('account.activation.method.telegram') }}" class="font-bold font-body text-gray-1 text-center">Подтвердить через Telegram</a>
+                    <a href="{{ route('account.activation.method.telegram.code') }}" class="font-bold font-body text-gray-1 text-center">Подтвердить через Telegram</a>
                 </div>
             </div>
         </div>

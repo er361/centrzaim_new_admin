@@ -218,46 +218,46 @@ sm:gap-8 gap-4  sm:text-base text-sm">
 </script>
 
 <!-- Yandex.Metrika counter -->
-{{--<script type="text/javascript" defer>--}}
+<script type="text/javascript" defer>
 
-{{--    // Получаем текущий URL--}}
-{{--    const currentUrl = window.location.pathname;--}}
+    // Получаем текущий URL
+    const currentUrl = window.location.pathname;
 
-{{--    // Устанавливаем таймаут в зависимости от URL--}}
-{{--    const delay = currentUrl.includes('/register') ? 4000 : 0;--}}
-{{--    console.log('delay', delay);--}}
+    // Устанавливаем таймаут в зависимости от URL
+    const delay = currentUrl.includes('/register') ? 4000 : 0;
+    console.log('delay', delay);
 
-{{--    window.addEventListener('load', function () {--}}
-{{--        setTimeout(() => {--}}
-{{--            (function (m, e, t, r, i, k, a) {--}}
-{{--                m[i] = m[i] || function () {--}}
-{{--                    (m[i].a = m[i].a || []).push(arguments)--}}
-{{--                };--}}
-{{--                m[i].l = 1 * new Date();--}}
-{{--                for (var j = 0; j < document.scripts.length; j++) {--}}
-{{--                    if (document.scripts[j].src === r) {--}}
-{{--                        return;--}}
-{{--                    }--}}
-{{--                }--}}
-{{--                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)--}}
-{{--            })--}}
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            (function (m, e, t, r, i, k, a) {
+                m[i] = m[i] || function () {
+                    (m[i].a = m[i].a || []).push(arguments)
+                };
+                m[i].l = 1 * new Date();
+                for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) {
+                        return;
+                    }
+                }
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+            })
 
-{{--            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");--}}
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-{{--            ym(99015882, "init", {--}}
-{{--                clickmap: true,--}}
-{{--                trackLinks: true,--}}
-{{--                accurateTrackBounce: true,--}}
-{{--                webvisor: true--}}
-{{--            });--}}
-{{--        }, delay);--}}
+            ym(99015882, "init", {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true
+            });
+        }, delay);
 
-{{--    });--}}
+    });
 
-{{--</script>--}}
-{{--<noscript>--}}
-{{--    <div><img src="https://mc.yandex.ru/watch/99015882" style="position:absolute; left:-9999px;" alt=""/></div>--}}
-{{--</noscript>--}}
+</script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/99015882" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 
 @yield('scripts')
 <!-- /Yandex.Metrika counter -->

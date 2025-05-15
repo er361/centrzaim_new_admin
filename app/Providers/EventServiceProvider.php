@@ -35,7 +35,7 @@ class EventServiceProvider extends ServiceProvider
             SendUserPostback::class,
         ],
         UserRegistrationStep1DoneEvent::class => [
-            CheckUserFccpListener::class,
+//            CheckUserFccpListener::class,
         ],
         WebmasterRegistered::class => [
             CreateWebmasterShowcase::class

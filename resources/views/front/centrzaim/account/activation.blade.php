@@ -13,7 +13,6 @@
         <div class="container flex flex-col gap-8">
             <h1 class="title main-info__title">Подтверждение аккаунта</h1>
 
-
             <div class="container pt-10 pb-16 flex xl:flex-row justify-between flex-col bg-white rounded-3xl shadow-lg">
 
                 <div class=" gap-8 flex flex-col py-5">
