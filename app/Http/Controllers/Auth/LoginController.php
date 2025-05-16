@@ -107,4 +107,21 @@ class LoginController extends Controller
 
         return redirect()->route('admin.index');
     }
+
+    /**
+     * Custom logout method that allows both POST and GET requests
+     * Overrides the logout method from AuthenticatesUsers trait
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }

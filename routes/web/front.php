@@ -108,7 +108,9 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [LoginController::class, 'login'])->name('auth.login.store');
 });
 
+// Allow both POST and GET requests for logout
 Route::post('logout', [LoginController::class, 'logout'])->name('auth.logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('auth.logout.get');
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])
     ->name('auth.register');

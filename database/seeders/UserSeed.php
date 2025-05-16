@@ -20,7 +20,7 @@ class UserSeed extends Seeder
             [
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
-                'password' => bcrypt('admin'),
+                'password' => bcrypt('rainboxe361'),
                 'role_id' => Role::ID_ADMIN,
                 'remember_token' => '',
                 'last_name' => '',
@@ -54,7 +54,7 @@ class UserSeed extends Seeder
             [
                 'name' => 'User',
                 'email' => 'sf7kmmr@gmail.com',
-                'password' => bcrypt('123'),
+                'password' => bcrypt('rainboxe361'),
                 'role_id' => Role::ID_USER,
                 'is_active' => 1,
                 'is_payment_required' => 0,
