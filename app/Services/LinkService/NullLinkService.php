@@ -63,4 +63,9 @@ class NullLinkService implements LinkCreatorServiceContract, LinkParsingServiceC
     {
         // TODO: Implement getAdditionalSubParams() method.
     }
+
+    public function getTelegramBotLink(User $user): string
+    {
+        // TODO: Implement getTelegramBotLink() method.
+    }
 }
