@@ -12,7 +12,10 @@ export default defineConfig({
                 'resources/assets/projects/ctr/css/style.css',
                 'resources/assets/projects/ctr/js/app.jsx',
                 'resources/assets/projects/ctr/js/scripts.js',
-                'resources/assets/js/app.js'
+                'resources/assets/js/app.js',
+                //miazaim
+                'resources/assets/projects/miazaim/css/app.css',
+                'resources/assets/projects/miazaim/js/app.jsx',
             ],
             refresh: true,
             hotFile: 'public_html/hot',
