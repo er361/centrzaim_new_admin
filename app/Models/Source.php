@@ -103,6 +103,11 @@ class Source extends Model
      * Идентификатор источника "Sravni".
      */
     public const ID_SRAVNI = 17;
+    
+    /**
+     * Идентификатор источника "Rafinad".
+     */
+    public const ID_RAFINAD = 18;
 
     /**
      * The attributes that are mass assignable.

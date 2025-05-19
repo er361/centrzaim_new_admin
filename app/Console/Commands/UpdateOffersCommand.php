@@ -2,92 +2,144 @@
 
 namespace App\Console\Commands;
 
-use App\DTO\Models\OfferApiModel;
-use App\DTO\OfferDTO;
-use App\Models\Loan;
-use App\Services\OffersChecker\Settings;
+use App\Services\OffersUpdateService\OfferServiceFactory;
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class UpdateOffersCommand extends Command
 {
-    protected $signature = 'offers:update';
+    protected $signature = 'offers:update {source?}';
 
-    protected $description = 'Обновляет офферы и сохраняет их в файл';
+    protected $description = 'Обновляет офферы из указанного источника или из всех источников';
 
     public function handle(): void
     {
-        Log::channel('offers')->info('Start update offers');
-        $PLATFORM_ID = setting()->get('LEADS_PLATFORM_ID') ?? 1313531;
-
-        $BASE_URL = 'https://api.leads.su/webmaster/offers/connectedPlatforms?';
-        $EXTENDED_FIELDS = 1;
-        $CATEGORIES = [14, 28];
-        $TOKEN = 'de91b9234bbfd113de2171e70dcd343c';
-
-        $categoriesString = implode(',', $CATEGORIES);
-
-        $url = "{$BASE_URL}categories={$categoriesString}&limit=100&platform_id={$PLATFORM_ID}&extendedFields={$EXTENDED_FIELDS}&token={$TOKEN}";
-        $response = Http::get($url);
-
-        if ($response->ok()) {
-            $data = $response->json();
-            $offers = Arr::get($data, 'data', []);
-            $this->saveOffers($offers);
-//            $jsonData = json_encode($offers, JSON_UNESCAPED_UNICODE);
-//            Storage::put('results.json', $jsonData);
-        } else {
-            Log::error('Error in getOffers ', ['message' => $response->body()]);
+        Log::channel('offers')->info('Starting offer update command');
+        
+        $sourceId = $this->argument('source');
+        
+        try {
+            if ($sourceId !== null) {
+                // Update offers from a specific source
+                try {
+                    $sourceId = (int) $sourceId;
+                    Log::channel('offers')->info("Updating offers from specific source", ['source_id' => $sourceId]);
+                    $this->updateSourceOffers($sourceId);
+                } catch (Throwable $e) {
+                    $this->error($e->getMessage());
+                    Log::channel('offers')->error('Error updating offers from specific source', [
+                        'source_id' => $sourceId,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                }
+            } else {
+                // Update offers from all available sources
+                Log::channel('offers')->info("Updating offers from all available sources");
+                $this->updateAllOffers();
+            }
+        } catch (Throwable $e) {
+            $this->error("Unexpected error: " . $e->getMessage());
+            Log::channel('offers')->error('Unexpected error in command', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
         }
-        Log::channel('offers')->info('End update offers');
+        
+        Log::channel('offers')->info('Finished offer update command');
     }
 
-    private function saveOffers(array $offers): void
+    /**
+     * Update offers from a specific source
+     * 
+     * @param int $sourceId The source ID
+     * @return void
+     */
+    private function updateSourceOffers(int $sourceId): void
     {
-        $offerDTO = new OfferDTO($offers);
-        $totalOffers = count($offerDTO->getOffers());
-        $newOffers = 0;
-        $updatedOffers = 0;
+        try {
+            $service = OfferServiceFactory::getService($sourceId);
+            $this->info("Updating offers from source ID: {$sourceId}");
+            
+            Log::channel('offers')->debug("Starting update for source", [
+                'source_id' => $sourceId,
+                'source_class' => get_class($service)
+            ]);
+            
+            $service->updateOffers();
+            
+            $this->info("Offers from source ID: {$sourceId} updated successfully");
+            Log::channel('offers')->info("Successfully updated offers for source", ['source_id' => $sourceId]);
+        } catch (Throwable $e) {
+            $this->error($e->getMessage());
+            Log::channel('offers')->error('Error getting or running service for source', [
+                'source_id' => $sourceId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            throw $e;
+        }
+    }
 
-        Log::channel('offers')->info("Processing {$totalOffers} offers");
-
-        collect($offerDTO->getOffers())->each(function (OfferApiModel $offer) use (&$newOffers, &$updatedOffers) {
-            // Check if loan exists
-            $exists = Loan::where('api_id', $offer->id)->exists();
-
-            $loan = Loan::updateOrCreate(
-                ['api_id' => $offer->id], // Критерии поиска
-                [
-                    'image_path' => $offer->image_path,
-                    'name' => $offer->siteName,
-                    'rating' => 0,
-                    'amount' => $offer->summaZaima,
-                    'issuing_period' => $offer->srok_zaima,
-                    'issuing_bid' => $offer->percent,
-                    'license' => $offer->license,
-                    'description' => 'no desc',
-                    'link' => $offer->link,
-                    'api_id' => $offer->id,
-                ]
-            );
-
-            $loan->loanLinks()->updateOrCreate(
-                ['loan_id' => $loan->id], // loan_id должен ссылаться на ID модели Loan
-                ['link' => $offer->link, 'source_id' => 1] // Остальные данные
-            );
-
-            if ($exists) {
-                $updatedOffers++;
-                Log::channel('offers')->info("Updated offer: {$offer->siteName} (ID: {$offer->id})");
-            } else {
-                $newOffers++;
-                Log::channel('offers')->info("Added new offer: {$offer->siteName} (ID: {$offer->id})");
+    /**
+     * Update offers from all available sources
+     * 
+     * @return void
+     */
+    private function updateAllOffers(): void
+    {
+        $services = OfferServiceFactory::getAllServices();
+        $sourceCount = count($services);
+        
+        Log::channel('offers')->info("Found services for sources", ['count' => $sourceCount]);
+        
+        $successCount = 0;
+        $failureCount = 0;
+        
+        foreach ($services as $index => $service) {
+            $sourceId = $service->getSourceId();
+            
+            try {
+                $currentIndex = $index + 1;
+                $this->info("Updating offers from source ID: {$sourceId} ({$currentIndex}/{$sourceCount})");
+                
+                Log::channel('offers')->debug("Starting update for source in batch", [
+                    'source_id' => $sourceId,
+                    'source_class' => get_class($service),
+                    'index' => $currentIndex,
+                    'total' => $sourceCount
+                ]);
+                
+                $service->updateOffers();
+                
+                $this->info("Offers from source ID: {$sourceId} updated successfully");
+                Log::channel('offers')->info("Successfully updated offers for source in batch", [
+                    'source_id' => $sourceId,
+                    'index' => $currentIndex,
+                    'total' => $sourceCount
+                ]);
+                
+                $successCount++;
+            } catch (Throwable $e) {
+                $this->error("Error updating source ID: {$sourceId}: " . $e->getMessage());
+                Log::channel('offers')->error('Error updating source in batch', [
+                    'source_id' => $sourceId,
+                    'index' => $index + 1,
+                    'total' => $sourceCount,
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                
+                $failureCount++;
             }
-        });
-
-        Log::channel('offers')->info("Summary: {$totalOffers} offers processed, {$newOffers} new offers added, {$updatedOffers} offers updated");
+        }
+        
+        Log::channel('offers')->info("Completed updating all sources", [
+            'total' => $sourceCount,
+            'success' => $successCount,
+            'failure' => $failureCount
+        ]);
     }
 }

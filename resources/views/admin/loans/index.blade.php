@@ -25,6 +25,7 @@
                     <th>ID</th>
                     <th>Название</th>
                     <th>Api ID</th>
+                    <th>Источник</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
@@ -44,6 +45,7 @@
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
                 {data: 'api_id', name: 'apiId'},
+                {data: 'source_name', name: 'sources.name'},
                 {data: 'actions', name: 'actions', searchable: false, sortable: false}
             ];
             processAjaxTables();

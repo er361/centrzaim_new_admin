@@ -47,7 +47,9 @@ class Loan extends Model
         'issuing_bid',
         'api_id',
         'license',
-        'link'
+        'link',
+        'source_id',
+        'link_source_id',
     ];
 
     /**

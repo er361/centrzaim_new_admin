@@ -34,10 +34,12 @@ class LoanController extends Controller
     {
         if ($request->ajax()) {
             $query = Loan::query()
+                ->join('sources', 'loans.source_id', '=', 'sources.id')
                 ->select([
                     'loans.id',
                     'loans.name',
-                    'loans.api_id'
+                    'loans.api_id',
+                    'sources.name as source_name'
                 ]);
 
             $table = Datatables::of($query);
