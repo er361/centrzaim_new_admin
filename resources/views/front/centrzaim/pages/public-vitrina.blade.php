@@ -35,3 +35,7 @@
         </div>
     </main>
 @endsection
+@section('scripts')
+    @include('blocks.scripts.offer_click')
+    @include('blocks.scripts.offer_click_redirect')
+@endsection
