@@ -85,6 +85,7 @@ class LeadsOfferService extends AbstractOfferService
         
         $categoriesString = implode(',', $this->categories);
         $url = "{$this->baseUrl}categories={$categoriesString}&limit=100&platform_id={$this->platformId}&extendedFields={$this->extendedFields}&token={$this->token}";
+
         $this->logDebug('API request URL (token masked)', ['url' => str_replace($this->token, '***', $url)]);
         
         try {
@@ -166,7 +167,8 @@ class LeadsOfferService extends AbstractOfferService
                         'source_id' => $this->getSourceId(),
                         'link_source_id' => $this->getSourceId(),
                     ];
-                    
+
+//                    dd($loanData);
                     $this->logDebug('Processing loan', [
                         'api_id' => $loanData['api_id'],
                         'name' => $loanData['name']

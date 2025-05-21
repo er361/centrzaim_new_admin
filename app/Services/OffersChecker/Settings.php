@@ -8,7 +8,11 @@ class Settings
 {
     public static int $YM_ID = 0;
 
-    public static string $PLATFORM_ID = '1316606';
+
+    public static function getPlatformId()
+    {
+        return setting()->get('LEADS_PLATFORM_ID');
+    }
 
     public static array $OFFER_IDS = [
         140, 693, 711, 1354, 9153, 9863, 10164, 10387, 10945, 9560, 719, 11100,

@@ -33,7 +33,7 @@ class OfferDTO
 
         return collect($this->offers)->transform(function ($offer) {
             $sum = data_get($offer, 'extendedFields.Условия кредитования.' . self::OFFER_AMOUNT_FIELD, '0');
-            $offerUrl = Settings::getOfferUrl(Settings::$PLATFORM_ID, $offer['tracking_urls']);
+            $offerUrl = Settings::getOfferUrl(Settings::getPlatformId(), $offer['tracking_urls']);
 
             $offerSrokString = $offer['extendedFields']['Условия кредитования']['Срок для микро и кред. карт'] ?? '0';
             preg_match('/-\s*(\d+)/', $offerSrokString, $matches);

@@ -75,7 +75,7 @@ class UserOfferService
 
         // Перенос логики из представления
         foreach ($offers as &$offer) {
-            $offer['offerUrl'] = Settings::getOfferUrl(Settings::$PLATFORM_ID, $offer['tracking_urls']);
+            $offer['offerUrl'] = Settings::getOfferUrl(Settings::getPlatformId(), $offer['tracking_urls']);
             $sum = data_get($offer, 'extendedFields.Условия кредитования.' . self::OFFER_SUMM_FIELD, '0');
 
             $offer['sum'] = $sum;
