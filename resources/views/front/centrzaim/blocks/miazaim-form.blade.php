@@ -59,8 +59,8 @@
 
             <div class="shortForm">
 
-                <div class="flex flex-row">
-                    <div class="w-8/12 flex flex-col gap-4">
+                <div class="flex sm:flex-row flex-col gap-4">
+                    <div class="sm:w-8/12 flex flex-col gap-4">
                         <x-form-errors :errors="$errors"/>
                         <form
                                 validateUrl="{{route('auth.register.validate')}}"
@@ -83,7 +83,7 @@
                                    has-error="1"
                                    @input="updateAgreement()"
                             >
-                            <div class="flex flex-row !w-full gap-2">
+                            <div class="flex sm:flex-row flex-col !w-full gap-2">
 
                                 <div id="fio"
                                      inputClassName="rounded-xl !h-[60px]"
@@ -109,7 +109,7 @@
                             <button id="submitFioForm" type="submit" class="hidden"></button>
                         </form>
                     </div>
-                    <div class="w-4/12">
+                    <div class="sm:w-4/12">
                         <div class="flex flex-col gap-4 w-full">
                             <div class="flex flex-row justify-center">
                                 <button class="money-btn bg-blue text-white text-center
