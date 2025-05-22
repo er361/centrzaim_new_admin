@@ -7,6 +7,8 @@
                 <option value="{{ $id }}">{{ $name }}</option>
             @endforeach
         </select>
+        <!-- Добавляем скрытое поле для sms_provider_id -->
+        <input type="hidden" name="sms_provider_id" value="{{ $selectedProvider }}">
     </div>
 
     <div class="col-xs-6 form-group">

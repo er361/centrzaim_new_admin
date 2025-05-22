@@ -3,6 +3,7 @@
 @section('content')
     <h3 class="page-title">SMS</h3>
     {!! Form::open(['method' => 'POST', 'route' => ['admin.sms.store']]) !!}
+    @csrf
 
     @include('admin.sms.form')
 
