@@ -39,7 +39,7 @@
 <header class="container sm:px-8 px-2 sm:py-2 py-4 flex flex-row justify-between
 sm:gap-8 gap-4  sm:text-base text-sm">
 
-    <div class="header__container container">
+    <div class="header__container container !px-0">
         <div class="header__logo logo">
             <a href="{{route('front.index')}}"><img src="/assets/ctr/img/logo.svg" alt="Социальный займ"></a>
         </div>
