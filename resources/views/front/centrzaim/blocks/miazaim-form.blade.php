@@ -168,7 +168,7 @@
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }} && !additionalTermsAgree }">
                     Я даю согласие на <b><a target="_blank"
-                                            href="/docs/ctr/data.docx">получение
+                                            href="/docs/ctr/Согласие_на_получение_рекламно_информационных_сообщений.docx">получение
                             рекламно-информационных сообщений.</a></b>
                 </p>
             </div>
