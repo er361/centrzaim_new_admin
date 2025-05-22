@@ -29,7 +29,7 @@
             <span class="font-bold sm:text-xl text-base">{{ $duration }}</span>
         </div>
     </div>
-    <span class="opacity-40 text-xs">{{ $license }}</span>
+    <span class="opacity-40 text-xs">{{ $license ?? 'Лицензия не указана' }}</span>
     <a target="_blank" href="{{ $offerUrl }}" class="offer_click flex justify-center">
         @include('blocks.components.get-money-btn', ['btnText' => 'Получить деньги',
             'class' => 'max-sm:px-2.5 max-sm:text-sm max-sm:py-2.5 rounded-[16px]'])
