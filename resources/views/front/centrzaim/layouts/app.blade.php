@@ -98,20 +98,12 @@ sm:gap-8 gap-4  sm:text-base text-sm">
         </div>
         <ul class="contacts footer__contacts">
             <li class="contacts__item">
-                <div class="contacts__icon contacts__icon_phone">
-                    <svg>
-                        <use xlink:href="/assets/ctr/img/sprite.svg#icon-phone">
-                    </svg>
-                </div>
-                <a class="contacts__text" href="tel:+79649937937">+7 (964) 9-937-937</a>
-            </li>
-            <li class="contacts__item">
                 <div class="contacts__icon contacts__icon_mail">
                     <svg>
                         <use xlink:href="/assets/ctr/img/sprite.svg#icon-mail">
                     </svg>
                 </div>
-                <a class="contacts__text" href="mailto:finxmall24@gmail.com">finxmall24@gmail.com</a>
+                <a class="contacts__text" href="mailto:support@centrzaim24.ru">support@centrzaim24.ru</a>
             </li>
             <li class="contacts__item">
                 <div class="contacts__icon contacts__icon_map">
