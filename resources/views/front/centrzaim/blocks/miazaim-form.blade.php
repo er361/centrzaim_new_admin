@@ -144,17 +144,11 @@
            }">
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('terms_agree') ? 'true' : 'false' }} && !termsAgree }">
-                    Подтверждаю, что мне <b>есть 18 лет</b>. <b>Даю свое <a target="_blank"
-                                                                            href="/docs/miazaim/Согласие_на_обработку_персональных_данных.pdf">согласие
-                            на обработку персональных данных</a> и
-                        принимаю <a target="_blank" href="/docs/miazaim/Оферта_о_предоставлении_услуг.pdf">условия
-                            публичной оферты</a>, <a target="_blank"
-                                                     href="/docs/miazaim/Соглашение_о_применении_Рекуррентных_платежей.pdf">соглашение
-                            о применении рекуррентных платежей</a></b> и <b><a target="_blank"
-                                                                               href="/docs/miazaim/Тарифы.pdf">тарифов</a>
-                        сервиса</b>. Осознаю, что оплата услуг сервиса платная и
-                    составляет {{config('payments_miazaim.monthly.amount')}} (одна тысяча сто девяносто шесть)
-                    рублей в месяц и оплата услуг сервиса не гарантирует получение займа.
+                    Подтверждаю, что мне <b>есть 18 лет</b>. <b>Даю свое
+                        <a target="_blank" href="/docs/ctr/Согласие_на_обработку_персональных_данных.docx">
+                            согласие
+                            на обработку персональных данных
+                        </a>
                 </p>
             </div>
 
@@ -174,7 +168,7 @@
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }} && !additionalTermsAgree }">
                     Я даю согласие на <b><a target="_blank"
-                                            href="/docs/miazaim/Согласие_на_получение_рекламно_информационных_сообщений.pdf">получение
+                                            href="/docs/ctr/data.docx">получение
                             рекламно-информационных сообщений.</a></b>
                 </p>
             </div>
