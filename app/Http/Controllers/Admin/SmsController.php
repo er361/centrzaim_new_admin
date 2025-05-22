@@ -66,7 +66,8 @@ class SmsController extends Controller
             ->keyBy('id')
             ->map(fn(Webmaster $webmaster) => $webmaster->completeName);
 
-
+        // Создаем пустую модель для шаблона form.blade.php
+        $model = new Sms();
 
         return view('admin.sms.create', compact(
             'providers',
@@ -75,6 +76,7 @@ class SmsController extends Controller
             'showcases',
             'webmasters',
             'relatedSms',
+            'model',
         ));
     }
 

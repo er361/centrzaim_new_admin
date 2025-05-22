@@ -12,15 +12,15 @@ use Livewire\Component;
 class SmsProviderAlphaNames extends Component
 {
     public $providers = [];
-    public $fromNames = [];
+    public $fromNames = []; // Инициализируем пустым массивом
     public $selectedProvider = '';
     public $selectedFrom = '';
     public ?Sms $sms;
 
     public function mount(Sms $sms = null, $selectedProvider = null)
     {
-        if (!$sms->exists) {
-            throw new \InvalidArgumentException('Объект Sms обязателен!');
+        if ($sms === null) {
+            $sms = new Sms(); // Создаем новый объект, если не передан
         }
 
         $this->sms = $sms;
@@ -44,7 +44,13 @@ class SmsProviderAlphaNames extends Component
     private function updateFromNames($providerId)
     {
         $provider = SmsProvider::find($providerId);
-        $this->fromNames = $provider ? $provider->from_name : [];
+        
+        // Проверяем, что from_name существует и является массивом
+        if ($provider && is_array($provider->from_name)) {
+            $this->fromNames = $provider->from_name;
+        } else {
+            $this->fromNames = []; // Всегда возвращаем массив
+        }
 
         // Если список пуст — сбрасываем выбор
         if (empty($this->fromNames)) {
@@ -53,7 +59,7 @@ class SmsProviderAlphaNames extends Component
         }
 
         // Если в fromNames есть from из sms, выбираем его
-        if (in_array($this->sms->from, $this->fromNames)) {
+        if (isset($this->sms->from) && in_array($this->sms->from, $this->fromNames)) {
             $this->selectedFrom = $this->sms->from;
         } else {
             // Иначе выбираем ключ с индексом 1 (если есть)

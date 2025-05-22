@@ -13,9 +13,11 @@
         <label for="from_name">Имя отправителя</label>
         <select wire:model.live="selectedFrom" name="from" class="form-control" required>
             <option value="">Выберите имя</option>
-            @foreach($fromNames as $name)
-                <option value="{{ $name }}">{{ $name }}</option>
-            @endforeach
+            @if(is_array($fromNames) && count($fromNames) > 0)
+                @foreach($fromNames as $name)
+                    <option value="{{ $name }}">{{ $name }}</option>
+                @endforeach
+            @endif
         </select>
     </div>
 </div>
