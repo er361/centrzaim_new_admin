@@ -29,7 +29,7 @@
         />
     @endforeach
 
-    @if(url()->current() === route('vitrina') && !$bannerShown && count($data) > 0)
+    @if(url()->current() === route('vitrina') || url()->current() === route('public.vitrina') && !$bannerShown && count($data) > 0)
         <div class="col-span-full banner-container w-full">
             {!! \App\Services\BannerService\BannerService::get('vitrina') !!}
         </div>
