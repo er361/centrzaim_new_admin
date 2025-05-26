@@ -64,6 +64,15 @@
 
 @section('scripts')
     <script>
+
+        function sendYm(event, link) {
+            event.preventDefault(); // Останавливаем мгновенный переход
+
+            ym(96714912, 'reachGoal', 'complete_confirm_tg_bot', null, function () {
+                console.log('Цель отправлена, отправляем форму...');
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('smsForm');
             if (form) {
@@ -79,6 +88,7 @@
                 form.addEventListener('submit', function() {
                     console.log('Form is submitting');
                     return true;
+
                 });
             }
         });

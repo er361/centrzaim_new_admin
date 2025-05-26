@@ -15,62 +15,62 @@ export function updateTime(selector) {
     });
 }
 
-window.validateAndSubmitForm = function (formId, validateUrl, goalName = null, goalId = 99015882 ) {
-    const form = document.getElementById(formId);
-    if (!form) {
-        console.error(`Форма с id "${formId}" не найдена.`);
-        return;
-    }
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Останавливаем стандартную отправку формы
-
-        let isFormSubmitted = false; // Флаг для предотвращения повторной отправки
-
-        fetch(validateUrl, {
-            method: 'POST',
-            body: new FormData(this),
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    if (!isFormSubmitted) {
-                        isFormSubmitted = true;
-                        if (goalName && typeof ym === 'function') {
-                            ym(goalId, 'reachGoal', goalName, null, function () {
-                                console.log('Цель отправлена, отправляем форму...');
-                                form.submit();
-                            });
-                        } else {
-                            form.submit();
-                        }
-
-                        setTimeout(() => {
-                            if (!isFormSubmitted) {
-                                isFormSubmitted = true;
-                                console.log('Отправка формы без цели, потому что заблокировано в адблоке');
-                                form.submit();
-                            }
-                        }, 500);
-                    }
-                } else {
-                    if (!isFormSubmitted) {
-                        isFormSubmitted = true;
-                        form.submit();
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка отправки формы:', error);
-                if (!isFormSubmitted) {
-                    isFormSubmitted = true;
-                    form.submit();
-                }
-            });
-    });
-}
+// window.validateAndSubmitForm = function (formId, validateUrl, goalName = null, goalId = 96714912 ) {
+//     const form = document.getElementById(formId);
+//     if (!form) {
+//         console.error(`Форма с id "${formId}" не найдена.`);
+//         return;
+//     }
+//
+//     form.addEventListener('submit', function (event) {
+//         event.preventDefault(); // Останавливаем стандартную отправку формы
+//
+//         let isFormSubmitted = false; // Флаг для предотвращения повторной отправки
+//
+//         fetch(validateUrl, {
+//             method: 'POST',
+//             body: new FormData(this),
+//             headers: {
+//                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//             }
+//         })
+//             .then(response => {
+//                 if (response.ok) {
+//                     if (!isFormSubmitted) {
+//                         isFormSubmitted = true;
+//                         if (goalName && typeof ym === 'function') {
+//                             ym(goalId, 'reachGoal', goalName, null, function () {
+//                                 console.log('Цель отправлена, отправляем форму...');
+//                                 form.submit();
+//                             });
+//                         } else {
+//                             form.submit();
+//                         }
+//
+//                         setTimeout(() => {
+//                             if (!isFormSubmitted) {
+//                                 isFormSubmitted = true;
+//                                 console.log('Отправка формы без цели, потому что заблокировано в адблоке');
+//                                 form.submit();
+//                             }
+//                         }, 500);
+//                     }
+//                 } else {
+//                     if (!isFormSubmitted) {
+//                         isFormSubmitted = true;
+//                         form.submit();
+//                     }
+//                 }
+//             })
+//             .catch(error => {
+//                 console.error('Ошибка отправки формы:', error);
+//                 if (!isFormSubmitted) {
+//                     isFormSubmitted = true;
+//                     form.submit();
+//                 }
+//             });
+//     });
+// }
 
 
 

@@ -148,11 +148,11 @@
                 }
             });
 
-            // validateAndSubmitForm(
-            //     'fioForm',
-            //     document.getElementById('fioForm').attributes.validateurl.value,
-            //     'complete_step_register'
-            // );
+            validateAndSubmitForm(
+                'fioForm',
+                document.getElementById('fioForm').attributes.validateurl.value,
+                'send_form'
+            );
         });
     </script>
     <script>

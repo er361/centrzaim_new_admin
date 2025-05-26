@@ -30,3 +30,73 @@ mobileMenuLinks.forEach((link) => {
         document.body.classList.toggle("overflow");
     });
 });
+
+window.validateAndSubmitForm = function (formId, validateUrl, goalName = null, goalId = 99015882 ) {
+    const form = document.getElementById(formId);
+
+    if (!form) {
+        console.error(`Форма с id "${formId}" не найдена.`);
+        return;
+    }
+
+form.addEventListener('submit', function (event) {
+        console.log('validate and submit form', formId, validateUrl, goalName, goalId);
+        event.preventDefault(); // Останавливаем стандартную отправку формы
+
+        let isFormSubmitted = false;
+
+        // Функция для безопасной отправки формы (только один раз)
+        const submitForm = () => {
+            if (isFormSubmitted) return;
+            isFormSubmitted = true;
+            console.log('Отправляем форму...');
+            form.submit();
+        };
+
+        fetch(validateUrl, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Response is ok', response);
+
+                if (goalName && typeof ym === 'function') {
+                    // Создаем Promise для отслеживания метрики с таймаутом
+                    const metrikaPromise = new Promise((resolve) => {
+                        ym(goalId, 'reachGoal', goalName, null, function() {
+                            console.log('Цель отправлена');
+                            resolve('metrika');
+                        });
+                    });
+
+                    // Promise.race между метрикой и таймером
+                    Promise.race([
+                        metrikaPromise,
+                        new Promise(resolve => setTimeout(() => {
+                            console.log('Таймаут Яндекс.Метрики (возможно заблокирован)');
+                            resolve('timeout');
+                        }, 500))
+                    ])
+                    .then(() => {
+                        submitForm();
+                    });
+                } else {
+                    // Если нет цели или функции ym, отправляем форму сразу
+                    submitForm();
+                }
+            } else {
+                console.log('Response is not ok', response);
+                submitForm();
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка отправки формы:', error);
+            submitForm();
+        });
+    });;
+}
+
