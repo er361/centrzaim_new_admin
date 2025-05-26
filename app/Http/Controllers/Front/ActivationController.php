@@ -73,7 +73,6 @@ class ActivationController extends Controller
      */
     public function smsActivation(Request $request, ActivationServiceInterface $activationService)
     {
-
         /** @var User $user */
         $user = Auth::user();
 

@@ -23,7 +23,7 @@
                     </div>
                     <div class="bg-[#EDF2FE] flex flex-row gap-4 max-w-[856px] p-3 rounded sm:text-base text-sm opacity-90">
                         <img src="/assets/miazaim/imgs/card/i.svg" alt="info" width="22" height="22">
-                        <p>На указанный вами телефон {{format_phone(auth()->user()->phone)}} отправлен пароль, введите его в поле ниже.</p>
+                        <p>На указанный вами телефон {{format_phone(auth()->user()->phone)}} отправлен код, введите его в поле ниже.</p>
                     </div>
 
                     <div class="flex lg:flex-row flex-col gap-4 justify-between">
