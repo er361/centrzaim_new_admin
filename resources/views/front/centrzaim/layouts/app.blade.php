@@ -236,7 +236,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
 
             (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-            ym(99015882, "init", {
+            ym(96714912, "init", {
                 clickmap: true,
                 trackLinks: true,
                 accurateTrackBounce: true,
@@ -248,7 +248,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
 
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/99015882" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/96714912" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 
 @yield('scripts')
