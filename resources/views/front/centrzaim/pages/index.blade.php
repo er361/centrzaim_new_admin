@@ -328,7 +328,7 @@
                 return;
                 @endif
 
-                ym(99015882, 'reachGoal', 'go_to_step_register');
+                ym(96714912, 'reachGoal', 'go_to_step_register');
 
                 if (wrapper) {
                     const block = wrapper.previousElementSibling;
