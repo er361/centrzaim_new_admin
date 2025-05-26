@@ -182,7 +182,7 @@ return [
     'defaults' => [
         'supervisor-1' => [
             'connection' => 'redis',
-            'queue' => ['default', 'payments', 'offers', 'fccp', 'webmaster'], // Указываем все очереди
+            'queue' => ['default', 'payments', 'offers', 'webmaster'], // Указываем все очереди
             'balance' => 'auto',
             'processes' => 5, // Количество воркеров на все очереди
             'tries' => 3,
