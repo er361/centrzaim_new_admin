@@ -37,3 +37,12 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+    <script>
+        validateAndSubmitForm(
+            'smsForm',
+            document.getElementById('smsForm').attributes.validateurl.value,
+            'complete_confirm_sms'
+        );
+    </script>
+@endsection
