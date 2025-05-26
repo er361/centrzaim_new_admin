@@ -32,7 +32,7 @@
                             <form
                                     validateUrl="{{route('account.activation.validateCode')}}"
                                     method="POST"
-                                    action="{{route('account.activation.store')}}" id="smsForm"
+                                    action="{{route('account.activation.store')}}" id="tgForm"
                                     class="flex flex-col gap-4">
                                 @csrf
                                 <div class="max-w-[416px] flex xl:flex-row flex-col gap-4">
@@ -64,15 +64,6 @@
 
 @section('scripts')
     <script>
-
-        function sendYm(event, link) {
-            event.preventDefault(); // Останавливаем мгновенный переход
-
-            ym(96714912, 'reachGoal', 'complete_confirm_tg_bot', null, function () {
-                console.log('Цель отправлена, отправляем форму...');
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('smsForm');
             if (form) {
@@ -91,6 +82,14 @@
 
                 });
             }
+
+            validateAndSubmitForm(
+                'tgForm',
+                document.getElementById('tgForm').attributes.validateurl.value,
+                'complete_confirm_tg_bot'
+            );
         });
+
+
     </script>
 @endsection
