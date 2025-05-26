@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="yandex-verification" content="6a1a5b68d9cdc5c6"/>
+    <meta name="yandex-verification" content="d94aed25018b4b6d"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
