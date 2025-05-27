@@ -42,8 +42,5 @@ Route::middleware('auth:sanctum')
 Route::get('/api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
 
 Route::get('test', function () {
-    \Illuminate\Support\Facades\Artisan::call('statistics:compute', [
-        '2025-02-19',
-        '2025-02-26'
-    ]);
+    Artisan::call('offers:update 1');
 });

@@ -157,9 +157,6 @@ class LeadsOfferService extends AbstractOfferService
                         'image_path' => $offer->image_path,
                         'name' => $offer->siteName,
                         'rating' => 0,
-                        'amount' => $offer->summaZaima,
-                        'issuing_period' => $offer->srok_zaima,
-                        'issuing_bid' => $offer->percent,
                         'license' => $offer->license,
                         'description' => 'no desc',
                         'link' => $offer->link,
@@ -178,6 +175,12 @@ class LeadsOfferService extends AbstractOfferService
                         ['api_id' => $offer->id],
                         $loanData
                     );
+                    
+                    // Set API fields using setters that respect immutable_fields
+                    $loan->setApiAmountWith($offer->summaZaima);
+                    $loan->setApiIssuingPeriodWith($offer->srok_zaima);
+                    $loan->setApiIssuingBidWith($offer->percent);
+                    $loan->save();
                     
                     $this->logDebug('Loan saved', [
                         'id' => $loan->id,

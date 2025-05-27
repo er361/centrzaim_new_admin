@@ -166,6 +166,19 @@ class LoanController extends Controller
             unset($data['image']);
         }
 
+        // Check which fields are being changed and add them to immutable_fields
+        $immutableFields = $loan->immutable_fields ?? [];
+        $fieldsToCheck = ['amount', 'issuing_period', 'issuing_bid'];
+        
+        foreach ($fieldsToCheck as $field) {
+            if (isset($data[$field]) && $loan->$field !== $data[$field]) {
+                if (!in_array($field, $immutableFields)) {
+                    $immutableFields[] = $field;
+                }
+            }
+        }
+        
+        $data['immutable_fields'] = $immutableFields;
         $loan->update($data);
 
         return redirect()->route('admin.loans.index');

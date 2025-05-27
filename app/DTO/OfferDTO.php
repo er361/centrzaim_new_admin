@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 class OfferDTO
 {
     const string OFFER_AMOUNT_FIELD = 'Сумма кредита до';
+    const string OFFER_PERIOD_FIELD = 'Срок кредитования до';
     private array $offers;
 
     public function __construct(array $offers)
@@ -35,10 +36,8 @@ class OfferDTO
             $sum = data_get($offer, 'extendedFields.Условия кредитования.' . self::OFFER_AMOUNT_FIELD, '0');
             $offerUrl = Settings::getOfferUrl(Settings::getPlatformId(), $offer['tracking_urls']);
 
-            $offerSrokString = $offer['extendedFields']['Условия кредитования']['Срок для микро и кред. карт'] ?? '0';
-            preg_match('/-\s*(\d+)/', $offerSrokString, $matches);
+            $srokZaima = data_get($offer, 'extendedFields.Условия кредитования.'.self::OFFER_PERIOD_FIELD, '0');
 
-            $srokZaima = $matches[1] ?? 0;
             $license = $offer['extendedFields']['Лицензии']['Лицензия (N c датой)'] ?? 'Лицензия не указана';
             $percent = $offer['extendedFields']['Условия кредитования']['Проценты по кредиту'] ?? 0.0;
 

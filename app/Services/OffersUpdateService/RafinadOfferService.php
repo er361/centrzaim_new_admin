@@ -148,11 +148,8 @@ class RafinadOfferService extends AbstractOfferService
                         'image_path' => $offer['image'] ?? '',
                         'name' => $offer['name'] ?? '',
                         'rating' => 0,
-//                        'amount' => $amount,
-//                        'issuing_period' => $period,
-//                        'issuing_bid' => $price,
                         'license' => '',
-                        'description' => substr($offer['description'] ?? 'no desc', 0, 190),
+                        'description' => 'no description',
                         'link' => $link,
                         'api_id' => $apiId,
                         'source_id' => $this->getSourceId(),
@@ -168,6 +165,12 @@ class RafinadOfferService extends AbstractOfferService
                         ['api_id' => $apiId],
                         $loanData
                     );
+                    
+                    // Set API fields using setters that respect immutable_fields
+                    $loan->setApiAmountWith($amount);
+                    $loan->setApiIssuingPeriodWith($period);
+                    $loan->setApiIssuingBidWith($price);
+                    $loan->save();
                     
                     $this->logDebug('Loan saved', [
                         'id' => $loan->id,

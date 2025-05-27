@@ -11,18 +11,6 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-6 form-group">
-        {!! Form::label('description', 'Описание', ['class' => 'control-label']) !!}
-        {!! Form::textarea('description', old('description'), ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
-        <p class="help-block"></p>
-        @if($errors->has('description'))
-            <p class="help-block">
-                {{ $errors->first('description') }}
-            </p>
-        @endif
-    </div>
-</div>
-<div class="row">
     <div class="col-xs-12 form-group">
         @isset($loan)
             {!! Form::label('image', 'Новое изображение', ['class' => 'control-label']) !!}
@@ -46,18 +34,7 @@
         </div>
     @endisset
 </div>
-@if($shouldShowExtendedFields)
     <div class="row">
-        <div class="col-xs-6 form-group">
-            {!! Form::label('rating', 'Рейтинг', ['class' => 'control-label']) !!}
-            {!! Form::number('rating', old('rating'), ['class' => 'form-control', 'placeholder' => '4,9', 'step' => 0.01]) !!}
-            <p class="help-block"></p>
-            @if($errors->has('rating'))
-                <p class="help-block">
-                    {{ $errors->first('rating') }}
-                </p>
-            @endif
-        </div>
         <div class="col-xs-6 form-group">
             {!! Form::label('amount', 'Сумма', ['class' => 'control-label']) !!}
             {!! Form::text('amount', old('amount'), ['class' => 'form-control', 'placeholder' => '2 000 - 15 000']) !!}
@@ -68,16 +45,7 @@
                 </p>
             @endif
         </div>
-        <div class="col-xs-6 form-group">
-            {!! Form::label('issuing_time', 'Время выдачи', ['class' => 'control-label']) !!}
-            {!! Form::text('issuing_time', old('issuing_time'), ['class' => 'form-control', 'placeholder' => 'До 4 минут']) !!}
-            <p class="help-block"></p>
-            @if($errors->has('issuing_time'))
-                <p class="help-block">
-                    {{ $errors->first('issuing_time') }}
-                </p>
-            @endif
-        </div>
+
         <div class="col-xs-6 form-group">
             {!! Form::label('issuing_period', 'Срок (дней)', ['class' => 'control-label']) !!}
             {!! Form::text('issuing_period', old('issuing_period'), ['class' => 'form-control', 'placeholder' => '7 - 21']) !!}
@@ -99,4 +67,3 @@
             @endif
         </div>
     </div>
-@endif
