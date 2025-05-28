@@ -65,27 +65,22 @@ form.addEventListener('submit', function (event) {
                 console.log('Response is ok', response);
 
                 if (goalName && typeof ym === 'function') {
-                    // Создаем Promise для отслеживания метрики с таймаутом
-                    const metrikaPromise = new Promise((resolve) => {
-                        ym(goalId, 'reachGoal', goalName, null, function() {
-                            console.log('Цель отправлена');
-                            resolve('metrika');
-                        });
-                    });
-
-                    // Promise.race между метрикой и таймером
-                    Promise.race([
-                        metrikaPromise,
-                        new Promise(resolve => setTimeout(() => {
-                            console.log('Таймаут Яндекс.Метрики (возможно заблокирован)');
-                            resolve('timeout');
-                        }, 500))
-                    ])
-                    .then(() => {
+                    try {
+                        // Отправляем цель метрики
+                        ym(goalId, 'reachGoal', goalName);
+                        console.log('Цель отправлена в Яндекс.Метрику:', goalName);
+                        
+                        // Небольшая задержка для учета метрики, затем отправляем форму
+                        setTimeout(() => {
+                            submitForm();
+                        }, 100);
+                    } catch (error) {
+                        console.log('Ошибка отправки цели в Яндекс.Метрику:', error);
                         submitForm();
-                    });
+                    }
                 } else {
                     // Если нет цели или функции ym, отправляем форму сразу
+                    console.log('Яндекс.Метрика недоступна или goalName не указан');
                     submitForm();
                 }
             } else {
