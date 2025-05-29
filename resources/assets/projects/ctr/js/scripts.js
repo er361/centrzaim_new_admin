@@ -67,13 +67,10 @@ form.addEventListener('submit', function (event) {
                 if (goalName && typeof ym === 'function') {
                     try {
                         // Отправляем цель метрики
-                        ym(goalId, 'reachGoal', goalName);
-                        console.log('Цель отправлена в Яндекс.Метрику:', goalName);
-                        
-                        // Небольшая задержка для учета метрики, затем отправляем форму
-                        setTimeout(() => {
+                        ym(goalId, 'reachGoal', goalName,function (){
+                            console.log('Цель отправлена в Яндекс.Метрику:', goalName);
                             submitForm();
-                        }, 100);
+                        });
                     } catch (error) {
                         console.log('Ошибка отправки цели в Яндекс.Метрику:', error);
                         submitForm();
