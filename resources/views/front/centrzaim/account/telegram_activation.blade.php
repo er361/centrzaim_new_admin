@@ -38,7 +38,7 @@
                                 <div class="max-w-[416px] flex xl:flex-row flex-col gap-4">
                                     <input maxlength="6" required name="code"
                                            value="{{old('activation_code')}}"
-                                           placeholder="Пароль из смс"
+                                           placeholder="Введите код"
                                            class="p-3 rounded w-full max-sm:text-center bg-gray-100 h-[60px] rounded-xl">
                                     <input type="hidden" name="phone" value="{{$phone}}">
                                 </div>
@@ -48,7 +48,7 @@
                                             Подтвердить
                                         </button>
                                         <a href="{{route('account.activation.method.sms')}}"
-                                           class="text-[#484E63] font-bold text-sm text-center cursor-pointer">Подтвердить
+                                           class="text-[#484E63] font-bold text-sm text-center cursor-pointer display-none">Подтвердить
                                             по СМС</a>
                                     </div>
                                 </div>
