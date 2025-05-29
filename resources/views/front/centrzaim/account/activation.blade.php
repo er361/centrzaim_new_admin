@@ -37,7 +37,7 @@
                                         @include('blocks.components.get-money-btn', ['btnText' => 'Получить код', 'class' => '!bg-[#2F76E2]', 'activeBtn' => true])
                                     </a>
                                     <a href="{{ route('account.activation.method.sms') }}"
-                                       class="text-[#484E63] font-bold text-sm text-center cursor-pointer">Подтвердить
+                                       class="text-[#484E63] font-bold text-sm text-center cursor-pointer hidden">Подтвердить
                                         по СМС </a>
                                 </div>
                             </div>
