@@ -48,7 +48,7 @@
                                             Подтвердить
                                         </button>
                                         <a href="{{route('account.activation.method.sms')}}"
-                                           class="text-[#484E63] font-bold text-sm text-center cursor-pointer display-none">Подтвердить
+                                           class="text-[#484E63] font-bold text-sm text-center cursor-pointer hidden">Подтвердить
                                             по СМС</a>
                                     </div>
                                 </div>
