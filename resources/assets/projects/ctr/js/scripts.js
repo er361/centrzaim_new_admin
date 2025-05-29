@@ -31,7 +31,7 @@ mobileMenuLinks.forEach((link) => {
     });
 });
 
-window.validateAndSubmitForm = function (formId, validateUrl, goalName = null, goalId = 99015882 ) {
+window.validateAndSubmitForm = function (formId, validateUrl, goalName = null, goalId = 96714912 ) {
     const form = document.getElementById(formId);
 
     if (!form) {
