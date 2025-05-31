@@ -110,6 +110,11 @@ class Source extends Model
     public const ID_RAFINAD = 18;
 
     /**
+     * Идентификатор источника "AdsFin".
+     */
+    public const ID_ADSFIN = 19;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

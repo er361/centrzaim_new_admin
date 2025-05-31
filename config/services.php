@@ -66,6 +66,13 @@ return [
 
     'sources' => [
         [
+            'route_key' => 'adsfin',
+            'webmaster_key' => 'webmaster_id',
+            'transaction_key' => 'click_id',
+            'cookie_lifetime' => 31 * 24 * 60 * 60,  // 1 месяц
+            'source_id' => Source::ID_ADSFIN,
+        ],
+        [
             'route_key' => 'leads',
             'webmaster_key' => 'wmid',
             'transaction_key' => 'subid',

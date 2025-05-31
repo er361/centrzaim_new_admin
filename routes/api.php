@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\UserRegistrationFinished;
 use App\Http\Controllers\Api\V1\ActivationController;
 use App\Http\Controllers\Api\V1\LoanController;
 use App\Http\Controllers\Api\V1\PaymentController;
@@ -42,5 +43,7 @@ Route::middleware('auth:sanctum')
 Route::get('/api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
 
 Route::get('test', function () {
-    Artisan::call('offers:update 1');
+    $user = \App\Models\User::find(7650);
+
+    event(new UserRegistrationFinished($user));
 });

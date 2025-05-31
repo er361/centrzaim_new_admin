@@ -5,6 +5,7 @@ namespace App\Services\PostbackService;
 
 
 use App\Models\Source;
+use App\Services\PostbackService\Providers\AdsFinPostbackNotifyService;
 use App\Services\PostbackService\Providers\AffisePostbackNotifyService;
 use App\Services\PostbackService\Providers\AlliancePostbackNotifyService;
 use App\Services\PostbackService\Providers\BankirosPostbackNotifyService;
@@ -49,6 +50,7 @@ class PostbackServiceFactory
             Source::ID_LINK_MONEY => LinkMoneyPostbackNotifyService::class,
             Source::ID_ALLIANCE => AlliancePostbackNotifyService::class,
             Source::ID_BANKIROS => BankirosPostbackNotifyService::class,
+            Source::ID_ADSFIN => AdsfinPostbackNotifyService::class,
         ];
 
         if (!isset($mapping[$sourceId])) {
