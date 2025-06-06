@@ -145,7 +145,7 @@
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('terms_agree') ? 'true' : 'false' }} && !termsAgree }">
                     Подтверждаю, что мне <b>есть 18 лет</b>. <b>Даю свое
-                        <a target="_blank" href="/docs/ctr/Согласие_на_обработку_персональных_данных.docx">
+                        <a target="_blank" href="/docs/ctr/Согласие_на_обработку_персональных_данных.pdf">
                             согласие
                             на обработку персональных данных
                         </a>
@@ -168,7 +168,7 @@
                 </label>
                 <p class="text-xs opacity-60" :class="{ 'text-red-500': {{ $errors->has('additional_terms_agree') ? 'true' : 'false' }} && !additionalTermsAgree }">
                     Я даю согласие на <b><a target="_blank"
-                                            href="/docs/ctr/Согласие_на_получение_рекламно_информационных_сообщений.docx">получение
+                                            href="/docs/ctr/Согласие_на_получение_рекламно_информационных_сообщений.pdf">получение
                             рекламно-информационных сообщений.</a></b>
                 </p>
             </div>

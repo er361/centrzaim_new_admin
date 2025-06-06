@@ -22,7 +22,8 @@ class ConfigViewComposer
         $sliderAmount = SettingsServiceFacade::getByKey(FrontendSettingsEnum::SLIDER_AMOUNT);
         $redirectDelay = SettingsServiceFacade::getByKey(FrontendSettingsEnum::REDIRECT_TIMING);
 
-        $redirectUrl = $redirectUrlService->generateUrl(SettingsServiceFacade::getByKey(FrontendSettingsEnum::REDIRECT_URL));
+        $redirectUrlSetting = SettingsServiceFacade::getByKey(FrontendSettingsEnum::REDIRECT_URL);
+        $redirectUrl = $redirectUrlSetting ? $redirectUrlService->generateUrl($redirectUrlSetting) : null;
 
         $isRedirectEnabled = SettingsServiceFacade::getByKey(FrontendSettingsEnum::IS_REDIRECT_ENABLED);
 
