@@ -161,6 +161,7 @@ sm:gap-8 gap-4  sm:text-base text-sm">
         </div>
     </div>
 </footer>
+@include('components.cookie-agree')
 <div class="mobile-menu">
     <div class="container">
         <ul class="mobile-menu__list">
