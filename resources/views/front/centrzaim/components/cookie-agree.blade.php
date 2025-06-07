@@ -1,4 +1,4 @@
-<div class="fixed container bottom-4 z-50 px-2 left-1/2 transform -translate-x-1/2">
+<div id="cookie-banner" class="fixed container bottom-4 z-50 px-2 left-1/2 transform -translate-x-1/2" style="display: none;">
     <div class="bg-white shadow-lg rounded-xl px-3 py-4 border border-blue">
         <!-- Десктоп версия -->
         <div class="hidden md:flex flex-row items-center justify-between gap-4">
@@ -7,7 +7,7 @@
                 Продолжая пользоваться сайтом, вы даёте согласие на использование cookie и обработку персональных данных. Подробнее в
                 <a href="/docs/ctr/Политика_конфиденциальности.pdf" target="_blank" class="text-blue-600 underline">Политике конфиденциальности</a>.
             </p>
-            <button class="bg-blue shrink-0 text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-blue-700 transition">
+            <button onclick="closeCookieBanner()" class="bg-blue shrink-0 text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-blue-700 transition">
                 Спасибо, понятно!
             </button>
         </div>
@@ -21,9 +21,21 @@
                     <a href="/docs/ctr/Политика_конфиденциальности.pdf" target="_blank" class="text-blue-600 underline">Политике конфиденциальности</a>.
                 </p>
             </div>
-            <button class="bg-blue w-full text-white text-xs font-medium px-3 py-2.5 rounded-lg hover:bg-blue-700 transition">
+            <button onclick="closeCookieBanner()" class="bg-blue w-full text-white text-xs font-medium px-3 py-2.5 rounded-lg hover:bg-blue-700 transition">
                 Спасибо, понятно!
             </button>
         </div>
     </div>
 </div>
+
+<script>
+function closeCookieBanner() {
+    document.getElementById('cookie-banner').style.display = 'none';
+    localStorage.setItem('cookieAgreed', 'true');
+}
+
+// Показываем баннер только если пользователь еще не согласился
+if (!localStorage.getItem('cookieAgreed')) {
+    document.getElementById('cookie-banner').style.display = 'block';
+}
+</script>
