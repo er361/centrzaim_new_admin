@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\UserRegistrationFinished;
 use App\Models\UserExtraData;
+use Illuminate\Support\Facades\Log;
 
 class SaveUserExtraDataListener
 {
@@ -14,13 +15,14 @@ class SaveUserExtraDataListener
     public function handle(UserRegistrationFinished $event): void
     {
         $user = $event->user;
-        
+
         $cookieData = $this->collectCookieData();
-        
+
         if (empty($cookieData)) {
-            dump('All cookies:', request()->cookie());
-            dump('$_COOKIE global:', $_COOKIE);
-            dd('Cookie data is empty');
+            Log::warning('cookie data is empty', [
+                'user' => $user,
+                'listener' => 'saveUserExtraData',
+            ]);
             return;
         }
 
