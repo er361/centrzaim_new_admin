@@ -41,11 +41,11 @@ class SaveUserExtraDataListener
 
     private function collectCookieData(): array
     {
-        $cookieNames = ['click_id', 'site_id', 'place_id', 'banner_id', 'campaign_id', 'webmaster_id'];
+        $cookieNames = ['site_id', 'place_id', 'banner_id', 'campaign_id', 'webmaster_id'];
         $cookieData = [];
 
         foreach ($cookieNames as $cookieName) {
-            $value = $_COOKIE[$cookieName];
+            $value = data_get($_COOKIE,$cookieName);
             if ($value !== null) {
                 $cookieData[$cookieName] = $value;
             }

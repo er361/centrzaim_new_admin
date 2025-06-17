@@ -328,6 +328,11 @@ class User extends Authenticatable
         return $this->hasMany(Postback::class);
     }
 
+    public function registerExtraData()
+    {
+        return $this->hasOne(UserExtraData::class, 'user_id');
+    }
+
     /**
      * @return BelongsToMany|Builder
      */

@@ -43,7 +43,9 @@ Route::middleware('auth:sanctum')
 Route::get('/api/documentation', '\L5Swagger\Http\Controllers\SwaggerController@api')->name('l5swagger.api');
 
 Route::get('test', function () {
-    $user = \App\Models\User::find(7650);
+    $user = \App\Models\User::find(12);
 
     event(new UserRegistrationFinished($user));
+    $postback = \App\Models\Postback::first();
+    return  $postback->user->registerExtraData->site_id ?? '-';
 });
