@@ -77,7 +77,6 @@ return [
                 'place_id' => 'place_id',
                 'utm_content' => 'banner_id',
                 'utm_campaign' => 'campaign_id',
-                'webmaster_id' => 'webmaster_id',
             ],
         ],
         [
