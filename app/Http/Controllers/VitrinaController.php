@@ -71,6 +71,9 @@ class VitrinaController extends Controller
         $webmaster = $user->webmaster;
         $source = $webmaster?->source;
         $showcase = Showcase::find(Showcase::ID_PRIVATE);
+//        dump('All cookies:', request()->cookie());
+//        dump('$_COOKIE global:', $_COOKIE);
+//        dd('Cookie data is empty');
 
         $sourceShowcaseLoansEntity = $loanServiceBuilder
             ->setSource($source)

@@ -12,6 +12,7 @@ use App\Events\WebmasterRegistered;
 use App\Listeners\CheckUserFccpListener;
 use App\Listeners\CreateWebmasterShowcase;
 use App\Listeners\RegisterCookiesListener;
+use App\Listeners\SaveUserExtraDataListener;
 use App\Listeners\SendUserPostback;
 use App\Listeners\SendUserPostbackAfterFill;
 use App\Listeners\SendUserPostbackAfterPayment;
@@ -27,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         UserRegistrationFinished::class => [
             SendUserPostback::class,
+            SaveUserExtraDataListener::class,
         ],
         UserPaymentSuccessful::class => [
             SendUserPostback::class,
