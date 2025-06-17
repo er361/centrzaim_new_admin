@@ -71,6 +71,14 @@ return [
             'transaction_key' => 'click_id',
             'cookie_lifetime' => 31 * 24 * 60 * 60,  // 1 месяц
             'source_id' => Source::ID_ADSFIN,
+            'cookie_mapping' => [
+                'click_id' => 'click_id',
+                'site_id' => 'site_id',
+                'place_id' => 'place_id',
+                'utm_content' => 'banner_id',
+                'utm_campaign' => 'campaign_id',
+                'webmaster_id' => 'webmaster_id',
+            ],
         ],
         [
             'route_key' => 'leads',
