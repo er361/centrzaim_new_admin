@@ -34,7 +34,6 @@ class SaveUserExtraDataListener
             'banner_id' => $cookieData['banner_id'] ?? null,
             'campaign_id' => $cookieData['campaign_id'] ?? null,
             'click_id' => $cookieData['click_id'] ?? null,
-            'webmaster_id' => $cookieData['webmaster_id'] ?? null,
             'raw_data' => $cookieData,
         ]);
     }
