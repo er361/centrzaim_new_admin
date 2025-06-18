@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Builders\PostbackBuilder;
+use App\Exports\Binders\TextValueBinder;
 use App\Models\Postback;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -13,7 +14,7 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithColumnFormatting, WithColumnWidths
+class PostbackExport extends TextValueBinder implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithColumnFormatting, WithColumnWidths
 {
     use Exportable;
 
@@ -40,7 +41,7 @@ class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustom
             $postback->remote_user_id ?? $postback->user->id,
             $postback->user->webmaster?->source?->name ?? '-',
             $postback->user->webmaster?->api_id ?? '-',
-            $postback->user->transaction_id ?? '-',
+            (string) ($postback->user->transaction_id ?? '-'),
             $postback->user->registerExtraData->site_id ?? '-',
             $postback->user->registerExtraData->place_id ?? '-',
             $postback->user->registerExtraData->banner_id ?? '-',
@@ -83,7 +84,7 @@ class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustom
     public function columnFormats(): array
     {
         return [
-            'E' => NumberFormat::FORMAT_NUMBER, // или другие варианты ниже
+            'E' => NumberFormat::FORMAT_GENERAL, // или другие варианты ниже
         ];
     }
 
