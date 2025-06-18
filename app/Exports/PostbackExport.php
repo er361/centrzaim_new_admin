@@ -10,9 +10,10 @@ use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithColumnFormatting
+class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustomChunkSize, WithColumnFormatting, WithColumnWidths
 {
     use Exportable;
 
@@ -82,7 +83,14 @@ class PostbackExport implements FromQuery, WithMapping, WithHeadings, WithCustom
     public function columnFormats(): array
     {
         return [
-            'E' => NumberFormat::FORMAT_TEXT,
+            'E' => NumberFormat::FORMAT_NUMBER, // или другие варианты ниже
+        ];
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'E' => 20,
         ];
     }
 }
