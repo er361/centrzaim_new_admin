@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Builders\PostbackBuilder;
-use App\Exports\Binders\TextValueBinder;
 use App\Models\Postback;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Exports\Binders;
+namespace App\Exports;
 
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
