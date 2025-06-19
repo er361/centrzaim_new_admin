@@ -20,7 +20,6 @@ class LoanOfferController
     public function __invoke(Request $request, LoanOffer $loanOffer, ProcessLoanOfferClickAction $action): RedirectResponse
     {
         $url = $action->handle($request, $loanOffer);
-        dd($url);
         return redirect()->away(
             $url
         );
