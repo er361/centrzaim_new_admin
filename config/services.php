@@ -67,13 +67,40 @@ return [
     'sources' => [
         [
             'source_id' => Source::ID_RAFINAD,
+
             'conversion' => [
+                'fields' => [
+                    'apiStatus' => 'lead_status',
+                    'apiConversionId' => 'lead_id',
+                    'apiCreatedAt' => 'lead_created',
+                    'apiPayout' => 'cost',
+                    'apiCurrency' => 'currency',
+                    'apiOfferId' => 'offer_id',
+                    'apiPayoutType' => null, // не приходит
+                    'apiTransactionId' => null, // не приходит
+                    'apiUserAgent' => null, // не приходит
+                    'apiAffiliateId' => null, // не приходит
+                    'apiSource' => 'source_id',
+                    'apiIp' => null, // не приходит
+                    'apiIsTest' => null, // не приходит
+                    'apiAdvSubId' => null, // не приходит
+                ],
+                'date_format' => null, // можно указать если нужно (например Y-m-d H:i:s)
+                'statuses' => [
+                    'approved' => ['ACCEPTED'],
+                    'pending' => ['WAIT'],
+                    'rejected' => ['REJECTED'],
+                ],
                 'subs' => [
                     1 => 'aff_sub1',
                     2 => 'aff_sub2',
                     3 => 'aff_sub3',
                     4 => 'aff_sub4',
-                ]
+                ],
+                'v1_prefixes' => [
+                    'user' => 'user:',
+                    'webmaster' => 'webmaster:',
+                ],
             ]
         ],
         [
