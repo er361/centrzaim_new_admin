@@ -66,6 +66,17 @@ return [
 
     'sources' => [
         [
+            'source_id' => Source::ID_RAFINAD,
+            'conversion' => [
+                'subs' => [
+                    1 => 'aff_sub1',
+                    2 => 'aff_sub2',
+                    3 => 'aff_sub3',
+                    4 => 'aff_sub4',
+                ]
+            ]
+        ],
+        [
             'route_key' => 'adsfin',
             'webmaster_key' => 'webmaster_id',
             'transaction_key' => 'click_id',
@@ -600,7 +611,7 @@ return [
     ],
     'banner' => [
         'adsfin' => [
-            'token' => env('ADSFIN_TOKEN','1609bcfada185d24e613439f1aaca510242f3c8b'),
+            'token' => env('ADSFIN_TOKEN', '1609bcfada185d24e613439f1aaca510242f3c8b'),
         ]
     ]
 ];
