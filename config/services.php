@@ -92,10 +92,10 @@ return [
                     'rejected' => ['REJECTED'],
                 ],
                 'subs' => [
-                    1 => 'aff_sub1',
-                    2 => 'aff_sub2',
-                    3 => 'aff_sub3',
-                    4 => 'aff_sub4',
+                    1 => 'sub1',
+                    2 => 'sub2',
+                    3 => 'sub3',
+                    4 => 'sub4',
                 ],
                 'v1_prefixes' => [
                     'user' => 'user:',
