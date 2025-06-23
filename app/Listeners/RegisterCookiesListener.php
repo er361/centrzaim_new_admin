@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserOnLandingPageEvent;
+use Illuminate\Support\Facades\Log;
 
 class RegisterCookiesListener
 {
@@ -21,16 +22,26 @@ class RegisterCookiesListener
 
     private function handleAdsfinCookies($requestData): void
     {
-        $adsfinConfig = config('services.sources.0.cookie_mapping');
+        $sources = config('services.sources', []);
         
-        if (!$adsfinConfig) {
+        // Find AdsFin configuration by source_id
+        $adsfinConfig = null;
+        foreach ($sources as $source) {
+            if (isset($source['source_id']) && $source['source_id'] === \App\Models\Source::ID_ADSFIN) {
+                $adsfinConfig = $source;
+                break;
+            }
+        }
+        
+        if (!$adsfinConfig || !isset($adsfinConfig['cookie_mapping'])) {
+            Log::warning('AdsFin cookies configuration not found');
             return;
         }
 
-        $cookieLifetime = config('services.sources.0.cookie_lifetime', 31 * 24 * 60 * 60);
+        $cookieLifetime = $adsfinConfig['cookie_lifetime'] ?? (31 * 24 * 60 * 60);
         $cookieLifetimeMinutes = $cookieLifetime / 60;
 
-        foreach ($adsfinConfig as $requestParam => $cookieName) {
+        foreach ($adsfinConfig['cookie_mapping'] as $requestParam => $cookieName) {
             if ($requestData->has($requestParam)) {
                 $value = $requestData->get($requestParam);
                 cookie()->queue($cookieName, $value, $cookieLifetimeMinutes);

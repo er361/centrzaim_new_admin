@@ -36,7 +36,7 @@ class UserExtraData extends Model
         'click_id',
         'webmaster_id',
         'raw_data',
-    ];
+      ];
 
     protected $casts = [
         'raw_data' => 'array',
