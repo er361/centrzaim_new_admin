@@ -48,6 +48,7 @@ class ProcessPostbackAction
 
 
         if ($conversionData === null) {
+            Log::warning('Ошибка при парсинге конверсии',$requestData);
             return;
         }
 

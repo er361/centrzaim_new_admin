@@ -70,14 +70,14 @@ return [
 
             'conversion' => [
                 'fields' => [
-                    'apiStatus' => 'lead_status',
-                    'apiConversionId' => 'lead_id',
-                    'apiCreatedAt' => 'lead_created',
-                    'apiPayout' => 'cost',
+                    'apiStatus' => 'status',
+                    'apiConversionId' => 'conversion_id',
+                    'apiTransactionId' => 'conversion_id', // не приходит
+                    'apiCreatedAt' => 'created',
+                    'apiPayout' => 'payout',
                     'apiCurrency' => 'currency',
                     'apiOfferId' => 'offer_id',
                     'apiPayoutType' => null, // не приходит
-                    'apiTransactionId' => null, // не приходит
                     'apiUserAgent' => null, // не приходит
                     'apiAffiliateId' => null, // не приходит
                     'apiSource' => 'source_id',

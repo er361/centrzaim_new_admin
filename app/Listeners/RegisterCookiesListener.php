@@ -32,7 +32,7 @@ class RegisterCookiesListener
                 break;
             }
         }
-        
+
         if (!$adsfinConfig || !isset($adsfinConfig['cookie_mapping'])) {
             Log::warning('AdsFin cookies configuration not found');
             return;
