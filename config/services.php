@@ -70,11 +70,11 @@ return [
 
             'conversion' => [
                 'fields' => [
-                    'apiStatus' => 'status',
-                    'apiConversionId' => 'conversion_id',
-                    'apiTransactionId' => 'conversion_id', // не приходит
-                    'apiCreatedAt' => 'created',
-                    'apiPayout' => 'payout',
+                    'apiStatus' => 'lead_status',
+                    'apiConversionId' => 'lead_id',
+                    'apiTransactionId' => 'lead_id', // не приходит
+                    'apiCreatedAt' => 'lead_created',
+                    'apiPayout' => 'cost',
                     'apiCurrency' => 'currency',
                     'apiOfferId' => 'offer_id',
                     'apiPayoutType' => null, // не приходит
