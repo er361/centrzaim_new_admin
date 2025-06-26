@@ -33,6 +33,8 @@ class SourceSeed extends Seeder
             ['id' => 15, 'name' => 'Альянс',],
             ['id' => 16, 'name' => 'Bankiros',],
             ['id' => 17, 'name' => 'Sravni',],
+            ['id' => 18, 'name' => 'Rafinad',],
+            ['id' => 19, 'name' => 'AdsFin',],
         ];
 
         $currentSource = Source::query()->get()->keyBy('id');

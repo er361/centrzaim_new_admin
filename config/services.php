@@ -113,8 +113,8 @@ return [
                 'click_id' => 'click_id',
                 'site_id' => 'site_id',
                 'place_id' => 'place_id',
-                'utm_content' => 'banner_id',
-                'utm_campaign' => 'campaign_id',
+                'utm_content' => 'utm_content',
+                'utm_campaign' => 'utm_campaign',
             ],
         ],
         [
