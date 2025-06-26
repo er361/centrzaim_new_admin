@@ -17,9 +17,23 @@ class ActionService
      * @param string $ip
      * @param null|string $userAgent
      * @param null|string $transactionId
+     * @param null|string $siteId
+     * @param null|string $placeId
+     * @param null|string $bannerId
+     * @param null|string $campaignId
      * @return Action
      */
-    public function registerAction(int $sourceId, string $webmasterId, string $ip, ?string $userAgent, ?string $transactionId): Action
+    public function registerAction(
+        int $sourceId, 
+        string $webmasterId, 
+        string $ip, 
+        ?string $userAgent, 
+        ?string $transactionId,
+        ?string $siteId = null,
+        ?string $placeId = null,
+        ?string $bannerId = null,
+        ?string $campaignId = null
+    ): Action
     {
         /** @var Webmaster $webmaster */
         $webmaster = Webmaster::query()
@@ -38,6 +52,10 @@ class ActionService
             'ip' => $ip,
             'user_agent' => $userAgent,
             'api_transaction_id' => $transactionId,
+            'site_id' => $siteId,
+            'place_id' => $placeId,
+            'banner_id' => $bannerId,
+            'campaign_id' => $campaignId,
         ]);
 
         return $action;

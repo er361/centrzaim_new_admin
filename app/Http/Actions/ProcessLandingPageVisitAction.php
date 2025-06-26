@@ -63,7 +63,8 @@ class ProcessLandingPageVisitAction
                 $webmasterKey,
                 $transactionKey,
                 $sourceId,
-                $cookieLifetime
+                $cookieLifetime,
+                $source['cookie_mapping'] ?? []
             );
         }
 
@@ -126,13 +127,20 @@ class ProcessLandingPageVisitAction
      * @param null|string $transactionKey Ключ в запросе с идентификатором транзакции
      * @param int $sourceId Идентификатор источника запроса
      * @param int $cookieLifetime Время жизни cookie в секундах
+     * @param array $cookieMapping Массив маппинга полей из запроса
      * @return Cookie|null
      */
-    protected function getWebmasterCookie(Request $request, string $webmasterKey, ?string $transactionKey, int $sourceId, int $cookieLifetime): ?Cookie
+    protected function getWebmasterCookie(Request $request, string $webmasterKey, ?string $transactionKey, int $sourceId, int $cookieLifetime, array $cookieMapping = []): ?Cookie
     {
         if (!$request->has($webmasterKey)) {
             return null;
         }
+
+        // Извлекаем значения из запроса согласно маппингу
+        $siteId = isset($cookieMapping['site_id']) ? $request->input($cookieMapping['site_id']) : null;
+        $placeId = isset($cookieMapping['place_id']) ? $request->input($cookieMapping['place_id']) : null;
+        $bannerId = isset($cookieMapping['utm_content']) ? $request->input($cookieMapping['utm_content']) : null;
+        $campaignId = isset($cookieMapping['utm_campaign']) ? $request->input($cookieMapping['utm_campaign']) : null;
 
         $action = $this->actionService
             ->registerAction(
@@ -140,7 +148,11 @@ class ProcessLandingPageVisitAction
                 $request->input($webmasterKey),
                 $request->ip(),
                 $request->userAgent(),
-                !empty($transactionKey) ? $request->input($transactionKey) : null
+                !empty($transactionKey) ? $request->input($transactionKey) : null,
+                $siteId,
+                $placeId,
+                $bannerId,
+                $campaignId
             );
 
         return cookie(

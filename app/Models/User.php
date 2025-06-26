@@ -357,7 +357,20 @@ class User extends Authenticatable
     public function action(): HasOne
     {
         return $this->hasOne(Action::class, 'api_transaction_id', 'transaction_id')
-            ->where('actions.webmaster_id', $this->webmaster_id);
+            ->where(function($query) {
+                if ($this->webmaster_id) {
+                    $query->where('actions.webmaster_id', $this->webmaster_id);
+                }
+            });
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function actionByWebmaster(): HasOne
+    {
+        return $this->hasOne(Action::class, 'api_transaction_id', 'transaction_id')
+            ->whereColumn('actions.webmaster_id', 'users.webmaster_id');
     }
 
     /**
