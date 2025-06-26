@@ -35,20 +35,42 @@ class PostbackExport extends TextValueBinder implements FromQuery, WithMapping, 
     public function map($postback): array
     {
         /** @var Postback $postback */
-        return [
-            $postback->id,
-            $postback->remote_user_id ?? $postback->user->id,
-            $postback->user->webmaster?->source?->name ?? '-',
-            $postback->user->webmaster?->api_id ?? '-',
-            '`' .($postback->user->transaction_id ?? '-'),
-            $postback->user->action->site_id ?? '-',
-            $postback->user->action->place_id ?? '-',
-            $postback->user->action->banner_id ?? '-',
-            $postback->user->action->campaign_id ?? '-',
-            $postback->cost,
-            $postback->created_at->format('d.m.Y H:i:s'),
-            $postback->sent_at === null ? 'Не отправлена' : 'Отправлена',
-        ];
+        try {
+            return [
+                $postback->id ?? '',
+                $postback->remote_user_id ?? ($postback->user?->id ?? ''),
+                $postback->user?->webmaster?->source?->name ?? '',
+                $postback->user?->webmaster?->api_id ?? '',
+                ($postback->user?->transaction_id ?? ''),
+                $postback->user?->action?->site_id ?? '',
+                $postback->user?->action?->place_id ?? '',
+                $postback->user?->action?->banner_id ?? '',
+                $postback->user?->action?->campaign_id ?? '',
+                $postback->cost ?? '',
+                $postback->created_at ? $postback->created_at->format('d.m.Y H:i:s') : '',
+                ($postback->sent_at === null ? 'Не отправлена' : 'Отправлена'),
+            ];
+        } catch (\Exception $e) {
+            \Log::error('PostbackExport map error: ' . $e->getMessage(), [
+                'postback_id' => $postback->id ?? 'unknown',
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return [
+                $postback->id ?? '',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+                'ERROR',
+            ];
+        }
     }
 
     /**
