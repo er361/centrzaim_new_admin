@@ -352,6 +352,15 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasOne
+     */
+    public function action(): HasOne
+    {
+        return $this->hasOne(Action::class, 'api_transaction_id', 'transaction_id')
+            ->where('actions.webmaster_id', $this->webmaster_id);
+    }
+
+    /**
      * Hash password
      * @param mixed $input
      */

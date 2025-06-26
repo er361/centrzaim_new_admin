@@ -91,6 +91,7 @@ class PostbackController extends Controller
             ->filter($request->all())
             ->with([
                 'user.webmaster.source',
+                'user.action'
             ]);
 
         $fileName = 'postbacks_' . Carbon::now()->format('Ymd_His') . '.xlsx';
