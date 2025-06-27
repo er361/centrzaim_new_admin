@@ -42,6 +42,11 @@ class RevenueReportStatisticsService
     protected array $detailedActionsData = [];
 
     /**
+     * @var array
+     */
+    protected array $detailedUsersData = [];
+
+    /**
      * RevenueReportStatisticsService constructor.
      * @param CarbonInterface|null $dateFrom
      * @param CarbonInterface|null $dateTo
@@ -134,10 +139,10 @@ class RevenueReportStatisticsService
             ->delete();
 
         // Сохраняем детализированную статистику
-        $this->saveDetailedActions($version, $webmasters);
+        $this->saveDetailedStatistics($version, $webmasters);
     }
 
-    protected function saveDetailedActions(string $version, $webmasters): void
+    protected function saveDetailedStatistics(string $version, $webmasters): void
     {
         // Удаляем старые записи
         StatisticsActionsDetailed::query()
@@ -146,16 +151,56 @@ class RevenueReportStatisticsService
             ->where('version', '!=', $version)
             ->delete();
 
-        // Сохраняем новые детализированные данные
-        foreach ($this->detailedActionsData as $detailedData) {
+        // Объединяем все детализированные данные
+        $allDetailedData = [];
+        
+        // Добавляем данные по actions
+        foreach ($this->detailedActionsData as $key => $data) {
+            if (!isset($allDetailedData[$key])) {
+                $allDetailedData[$key] = [
+                    'date' => $data['date'],
+                    'source_id' => $data['source_id'],
+                    'webmaster_id' => $data['webmaster_id'],
+                    'site_id' => $data['site_id'],
+                    'place_id' => $data['place_id'],
+                    'banner_id' => $data['banner_id'],
+                    'campaign_id' => $data['campaign_id'],
+                    'actions_count' => 0,
+                    'users_count' => 0,
+                    'active_users_count' => 0,
+                ];
+            }
+            $allDetailedData[$key]['actions_count'] = $data['actions_count'];
+        }
+        
+        // Добавляем данные по users
+        foreach ($this->detailedUsersData as $key => $data) {
+            if (!isset($allDetailedData[$key])) {
+                $allDetailedData[$key] = [
+                    'date' => $data['date'],
+                    'source_id' => $data['source_id'],
+                    'webmaster_id' => $data['webmaster_id'],
+                    'site_id' => $data['site_id'],
+                    'place_id' => $data['place_id'],
+                    'banner_id' => $data['banner_id'],
+                    'campaign_id' => $data['campaign_id'],
+                    'actions_count' => 0,
+                    'users_count' => 0,
+                    'active_users_count' => 0,
+                ];
+            }
+            $allDetailedData[$key]['users_count'] = $data['users_count'];
+            $allDetailedData[$key]['active_users_count'] = $data['active_users_count'];
+        }
+
+        // Сохраняем объединенные данные
+        foreach ($allDetailedData as $detailedData) {
             $webmaster = $webmasters->get((int)$detailedData['webmaster_id']);
             
             $record = array_merge($detailedData, [
                 'webmaster_income_coefficient' => $webmaster?->income_percent,
                 'version' => $version,
                 // Инициализируем остальные поля нулевыми значениями
-                'users_count' => 0,
-                'active_users_count' => 0,
                 'card_added_users_count' => 0,
                 'dashboard_conversions' => 0,
                 'sms_conversions' => 0,
@@ -269,6 +314,7 @@ class RevenueReportStatisticsService
 
     protected function loadUsers(): void
     {
+        // Существующая общая статистика
         User::query()
             ->selectRaw("DATE_FORMAT(users.created_at, '%Y-%m-%d') as date")
             ->selectRaw('count(users.id) as users_count')
@@ -293,6 +339,102 @@ class RevenueReportStatisticsService
                         'active_users_count' => $user->getAttribute('active_users_count'),
                     ]
                 );
+            });
+
+        // Детализированная статистика через связь с actions
+        User::query()
+            ->selectRaw("DATE_FORMAT(users.created_at, '%Y-%m-%d') as date")
+            ->selectRaw('actions.site_id')
+            ->selectRaw('actions.place_id')
+            ->selectRaw('actions.banner_id')
+            ->selectRaw('actions.campaign_id')
+            ->selectRaw('count(users.id) as users_count')
+            ->selectRaw('SUM(case when users.is_active = 1 then 1 else 0 end) as active_users_count')
+            ->whereNotNull('users.webmaster_id')
+            ->whereNotNull('users.transaction_id')
+            ->where('users.created_at', '>=', $this->dateFrom)
+            ->where('users.created_at', '<=', $this->dateTo)
+            ->join('actions', function($join) {
+                $join->on('actions.api_transaction_id', '=', 'users.transaction_id')
+                     ->whereColumn('actions.webmaster_id', 'users.webmaster_id');
+            })
+            ->leftJoin('webmasters', 'webmasters.id', '=', 'users.webmaster_id')
+            ->selectRaw('webmasters.source_id')
+            ->selectRaw('webmasters.id as webmaster_id')
+            ->groupBy([
+                'webmasters.source_id', 
+                'webmasters.id', 
+                'date',
+                'actions.site_id',
+                'actions.place_id',
+                'actions.banner_id',
+                'actions.campaign_id'
+            ])
+            ->orderBy('webmasters.source_id')
+            ->orderBy('webmasters.id')
+            ->orderBy('date')
+            ->each(function ($user) {
+                $key = implode('_', [
+                    $user->getAttribute('date'),
+                    $user->getAttribute('source_id'),
+                    $user->getAttribute('webmaster_id'),
+                    $user->getAttribute('site_id'),
+                    $user->getAttribute('place_id'),
+                    $user->getAttribute('banner_id'),
+                    $user->getAttribute('campaign_id'),
+                ]);
+                
+                $this->detailedUsersData[$key] = [
+                    'date' => $user->getAttribute('date'),
+                    'source_id' => $user->getAttribute('source_id'),
+                    'webmaster_id' => $user->getAttribute('webmaster_id'),
+                    'site_id' => $user->getAttribute('site_id'),
+                    'place_id' => $user->getAttribute('place_id'),
+                    'banner_id' => $user->getAttribute('banner_id'),
+                    'campaign_id' => $user->getAttribute('campaign_id'),
+                    'users_count' => $user->getAttribute('users_count'),
+                    'active_users_count' => $user->getAttribute('active_users_count'),
+                ];
+            });
+
+        // Загружаем пользователей без actions (без transaction_id)
+        User::query()
+            ->selectRaw("DATE_FORMAT(users.created_at, '%Y-%m-%d') as date")
+            ->selectRaw('count(users.id) as users_count')
+            ->selectRaw('SUM(case when users.is_active = 1 then 1 else 0 end) as active_users_count')
+            ->whereNotNull('users.webmaster_id')
+            ->whereNull('users.transaction_id')
+            ->where('users.created_at', '>=', $this->dateFrom)
+            ->where('users.created_at', '<=', $this->dateTo)
+            ->leftJoin('webmasters', 'webmasters.id', '=', 'users.webmaster_id')
+            ->selectRaw('webmasters.source_id')
+            ->selectRaw('webmasters.id as webmaster_id')
+            ->groupBy(['webmasters.source_id', 'webmasters.id', 'date'])
+            ->orderBy('webmasters.source_id')
+            ->orderBy('webmasters.id')
+            ->orderBy('date')
+            ->each(function ($user) {
+                $key = implode('_', [
+                    $user->getAttribute('date'),
+                    $user->getAttribute('source_id'),
+                    $user->getAttribute('webmaster_id'),
+                    'NULL', // site_id
+                    'NULL', // place_id
+                    'NULL', // banner_id
+                    'NULL', // campaign_id
+                ]);
+                
+                $this->detailedUsersData[$key] = [
+                    'date' => $user->getAttribute('date'),
+                    'source_id' => $user->getAttribute('source_id'),
+                    'webmaster_id' => $user->getAttribute('webmaster_id'),
+                    'site_id' => null,
+                    'place_id' => null,
+                    'banner_id' => null,
+                    'campaign_id' => null,
+                    'users_count' => $user->getAttribute('users_count'),
+                    'active_users_count' => $user->getAttribute('active_users_count'),
+                ];
             });
     }
 

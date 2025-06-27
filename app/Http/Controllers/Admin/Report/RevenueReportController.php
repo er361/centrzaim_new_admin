@@ -115,6 +115,8 @@ class RevenueReportController extends Controller
                     'campaign_id',
                     'webmaster_id',
                     DB::raw('sum(actions_count) as actions_count'),
+                    DB::raw('sum(users_count) as users_count'),
+                    DB::raw('sum(active_users_count) as active_users_count'),
                 ])
                 ->with(['webmaster.source'])
                 ->where('date', '>=', $dateFrom)
@@ -131,9 +133,41 @@ class RevenueReportController extends Controller
                 ->orderBy('webmaster_id')
                 ->orderBy('actions_count', 'desc')
                 ->get();
+
+            // Получаем пользователей без actions (без детализации)
+            $usersWithoutActions = StatisticsActionsDetailed::query()
+                ->select([
+                    'site_id',
+                    'place_id', 
+                    'banner_id',
+                    'campaign_id',
+                    'webmaster_id',
+                    DB::raw('sum(actions_count) as actions_count'),
+                    DB::raw('sum(users_count) as users_count'),
+                    DB::raw('sum(active_users_count) as active_users_count'),
+                ])
+                ->with(['webmaster.source'])
+                ->where('date', '>=', $dateFrom)
+                ->where('date', '<=', $dateTo)
+                ->whereNull('site_id')
+                ->whereNull('place_id')
+                ->whereNull('banner_id')
+                ->whereNull('campaign_id')
+                ->when($sourceIds !== null && is_numeric(Arr::first($sourceIds)), function ($query) use ($sourceIds) {
+                    $query->whereHas('webmaster', function (Builder $query) use ($sourceIds) {
+                        $query->whereIn('source_id', $sourceIds);
+                    });
+                })
+                ->when($webmasterIds !== null && is_numeric(Arr::first($webmasterIds)), function ($query) use ($webmasterIds) {
+                    $query->whereIn('webmaster_id', $webmasterIds);
+                })
+                ->groupBy(['site_id', 'place_id', 'banner_id', 'campaign_id', 'webmaster_id'])
+                ->orderBy('webmaster_id')
+                ->get();
         } else {
             $rows = collect();
             $detailedRows = collect();
+            $usersWithoutActions = collect();
         }
 
         $sources = Source::query()
@@ -154,6 +188,7 @@ class RevenueReportController extends Controller
         return view('admin.reports.revenue', compact(
             'rows',
             'detailedRows',
+            'usersWithoutActions',
             'webmasters',
             'sources',
             'shouldShowSourceName',

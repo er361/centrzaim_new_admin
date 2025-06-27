@@ -169,7 +169,7 @@
     @if(count($detailedRows) > 0)
         <div class="panel panel-default">
             <div class="panel-heading">
-                Детализированная статистика по кликам (Actions)
+                Детализированная статистика по site_id, place_id, banner_id, campaign_id
             </div>
             <div class="panel-body table-responsive">
                 <table class="table table-bordered table-striped datatable">
@@ -186,6 +186,8 @@
                         <th>Banner ID</th>
                         <th>Campaign ID</th>
                         <th class="sum">Кликов</th>
+                        <th class="sum">Регистраций</th>
+                        <th class="sum">Подтвержденных регистраций</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -206,6 +208,8 @@
                             <td>{{ $row->banner_id ?: '-' }}</td>
                             <td>{{ $row->campaign_id ?: '-' }}</td>
                             <td class="sum">{{ $row->actions_count }}</td>
+                            <td class="sum">{{ $row->users_count }}</td>
+                            <td class="sum">{{ $row->active_users_count }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -217,6 +221,81 @@
                         </td>
                         <td class="sum">
                             <strong>{{ $detailedRows->sum('actions_count') }}</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $detailedRows->sum('users_count') }}</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $detailedRows->sum('active_users_count') }}</strong>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @if(count($usersWithoutActions) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Регистрации без actions (без детализации по site_id, place_id, banner_id, campaign_id)
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered table-striped datatable">
+                    <thead>
+                    <tr>
+                        @if($shouldShowWebmasterName)
+                            <th>Вебмастер</th>
+                        @endif
+                        @if($shouldShowSourceName)
+                            <th>Партнерская программа</th>
+                        @endif
+                        <th>Site ID</th>
+                        <th>Place ID</th>
+                        <th>Banner ID</th>
+                        <th>Campaign ID</th>
+                        <th class="sum">Кликов</th>
+                        <th class="sum">Регистраций</th>
+                        <th class="sum">Подтвержденных регистраций</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($usersWithoutActions as $row)
+                        <tr>
+                            @if($shouldShowWebmasterName)
+                                <td>
+                                    {{ $row->webmaster ? $row->webmaster->api_id : '-' }}
+                                </td>
+                            @endif
+                            @if($shouldShowSourceName)
+                                <td>
+                                    {{ $row->webmaster && $row->webmaster->source ? $row->webmaster->source->name : '-' }}
+                                </td>
+                            @endif
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="sum">{{ $row->actions_count }}</td>
+                            <td class="sum">{{ $row->users_count }}</td>
+                            <td class="sum">{{ $row->active_users_count }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        @php($colSpan = 4 + (int)$shouldShowSourceName + (int)$shouldShowWebmasterName)
+                        <td colspan="{{ $colSpan }}">
+                            <strong>Итого без детализации</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $usersWithoutActions->sum('actions_count') }}</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $usersWithoutActions->sum('users_count') }}</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $usersWithoutActions->sum('active_users_count') }}</strong>
                         </td>
                     </tr>
                     </tfoot>
