@@ -165,4 +165,63 @@
             </table>
         </div>
     </div>
+
+    @if(count($detailedRows) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Детализированная статистика по кликам (Actions)
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-bordered table-striped datatable">
+                    <thead>
+                    <tr>
+                        @if($shouldShowWebmasterName)
+                            <th>Вебмастер</th>
+                        @endif
+                        @if($shouldShowSourceName)
+                            <th>Партнерская программа</th>
+                        @endif
+                        <th>Site ID</th>
+                        <th>Place ID</th>
+                        <th>Banner ID</th>
+                        <th>Campaign ID</th>
+                        <th class="sum">Кликов</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($detailedRows as $row)
+                        <tr>
+                            @if($shouldShowWebmasterName)
+                                <td>
+                                    {{ $row->webmaster ? $row->webmaster->api_id : '-' }}
+                                </td>
+                            @endif
+                            @if($shouldShowSourceName)
+                                <td>
+                                    {{ $row->webmaster && $row->webmaster->source ? $row->webmaster->source->name : '-' }}
+                                </td>
+                            @endif
+                            <td>{{ $row->site_id ?: '-' }}</td>
+                            <td>{{ $row->place_id ?: '-' }}</td>
+                            <td>{{ $row->banner_id ?: '-' }}</td>
+                            <td>{{ $row->campaign_id ?: '-' }}</td>
+                            <td class="sum">{{ $row->actions_count }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        @php($colSpan = 4 + (int)$shouldShowSourceName + (int)$shouldShowWebmasterName)
+                        <td colspan="{{ $colSpan }}">
+                            <strong>Итого</strong>
+                        </td>
+                        <td class="sum">
+                            <strong>{{ $detailedRows->sum('actions_count') }}</strong>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    @endif
 @stop

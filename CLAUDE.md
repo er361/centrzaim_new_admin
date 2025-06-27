@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Tests use Pest PHP testing framework (https://pestphp.com/)
 - Use .env.testing file for test configuration
 - Test database credentials are configured in .env.testing file
+- Sudo password: 123
 
 ## Commands
 - **Install**: `composer install && npm install`

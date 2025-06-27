@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\Postback;
 use App\Models\SmsUser;
 use App\Models\Statistic;
+use App\Models\StatisticsActionsDetailed;
 use App\Models\User;
 use App\Models\Webmaster;
 use Carbon\Carbon;
@@ -34,6 +35,11 @@ class RevenueReportStatisticsService
      * @var RevenueReportStatisticsDataHolder
      */
     protected RevenueReportStatisticsDataHolder $dataHolder;
+
+    /**
+     * @var array
+     */
+    protected array $detailedActionsData = [];
 
     /**
      * RevenueReportStatisticsService constructor.
@@ -126,10 +132,69 @@ class RevenueReportStatisticsService
             ->where('date', '<=', $this->dateTo)
             ->where('version', '!=', $version)
             ->delete();
+
+        // Сохраняем детализированную статистику
+        $this->saveDetailedActions($version, $webmasters);
+    }
+
+    protected function saveDetailedActions(string $version, $webmasters): void
+    {
+        // Удаляем старые записи
+        StatisticsActionsDetailed::query()
+            ->where('date', '>=', $this->dateFrom)
+            ->where('date', '<=', $this->dateTo)
+            ->where('version', '!=', $version)
+            ->delete();
+
+        // Сохраняем новые детализированные данные
+        foreach ($this->detailedActionsData as $detailedData) {
+            $webmaster = $webmasters->get((int)$detailedData['webmaster_id']);
+            
+            $record = array_merge($detailedData, [
+                'webmaster_income_coefficient' => $webmaster?->income_percent,
+                'version' => $version,
+                // Инициализируем остальные поля нулевыми значениями
+                'users_count' => 0,
+                'active_users_count' => 0,
+                'card_added_users_count' => 0,
+                'dashboard_conversions' => 0,
+                'sms_conversions' => 0,
+                'sms_cost_sum' => 0,
+                'payments_sum' => 0,
+                'ltv_sum' => 0,
+                'banners_sum' => 0,
+                'postback_count' => 0,
+                'postback_cost_sum' => 0,
+                'total' => 0,
+            ]);
+
+            StatisticsActionsDetailed::query()
+                ->updateOrCreate(
+                    Arr::only($record, [
+                        'date',
+                        'source_id',
+                        'webmaster_id',
+                        'site_id',
+                        'place_id',
+                        'banner_id',
+                        'campaign_id'
+                    ]),
+                    Arr::except($record, [
+                        'date',
+                        'source_id',
+                        'webmaster_id',
+                        'site_id',
+                        'place_id',
+                        'banner_id',
+                        'campaign_id'
+                    ])
+                );
+        }
     }
 
     protected function loadActions(): void
     {
+        // Сначала загружаем общую статистику по вебмастерам
         Action::query()
             ->selectRaw('count(actions.id) as actions_count')
             ->selectRaw("DATE_FORMAT(actions.created_at, '%Y-%m-%d') as date")
@@ -151,6 +216,54 @@ class RevenueReportStatisticsService
                         'actions_count' => $action->getAttribute('actions_count'),
                     ]
                 );
+            });
+
+        // Теперь загружаем детализированную статистику
+        Action::query()
+            ->selectRaw('count(actions.id) as actions_count')
+            ->selectRaw("DATE_FORMAT(actions.created_at, '%Y-%m-%d') as date")
+            ->selectRaw('actions.site_id')
+            ->selectRaw('actions.place_id')
+            ->selectRaw('actions.banner_id')
+            ->selectRaw('actions.campaign_id')
+            ->where('actions.created_at', '>=', $this->dateFrom)
+            ->where('actions.created_at', '<=', $this->dateTo)
+            ->leftJoin('webmasters', 'webmasters.id', '=', 'actions.webmaster_id')
+            ->selectRaw('webmasters.source_id')
+            ->selectRaw('webmasters.id as webmaster_id')
+            ->groupBy([
+                'webmasters.source_id', 
+                'webmasters.id', 
+                'date',
+                'actions.site_id',
+                'actions.place_id',
+                'actions.banner_id',
+                'actions.campaign_id'
+            ])
+            ->orderBy('webmasters.source_id')
+            ->orderBy('webmasters.id')
+            ->orderBy('date')
+            ->each(function (Action $action) {
+                $key = implode('_', [
+                    $action->getAttribute('date'),
+                    $action->getAttribute('source_id'),
+                    $action->getAttribute('webmaster_id'),
+                    $action->getAttribute('site_id'),
+                    $action->getAttribute('place_id'),
+                    $action->getAttribute('banner_id'),
+                    $action->getAttribute('campaign_id'),
+                ]);
+                
+                $this->detailedActionsData[$key] = [
+                    'date' => $action->getAttribute('date'),
+                    'source_id' => $action->getAttribute('source_id'),
+                    'webmaster_id' => $action->getAttribute('webmaster_id'),
+                    'site_id' => $action->getAttribute('site_id'),
+                    'place_id' => $action->getAttribute('place_id'),
+                    'banner_id' => $action->getAttribute('banner_id'),
+                    'campaign_id' => $action->getAttribute('campaign_id'),
+                    'actions_count' => $action->getAttribute('actions_count'),
+                ];
             });
     }
 

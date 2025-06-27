@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Source;
 use App\Models\Statistic;
+use App\Models\StatisticsActionsDetailed;
 use App\Models\User;
 use App\Models\Webmaster;
 use Carbon\Carbon;
@@ -104,8 +105,35 @@ class RevenueReportController extends Controller
                 ->when($groupType === 3, fn(StatisticBuilder $query) => $query->selectAndGroupByYear())
                 ->orderBy('formatted_date')
                 ->get();
+                
+            // Получаем детализированную статистику по actions
+            $detailedRows = StatisticsActionsDetailed::query()
+                ->select([
+                    'site_id',
+                    'place_id', 
+                    'banner_id',
+                    'campaign_id',
+                    'webmaster_id',
+                    DB::raw('sum(actions_count) as actions_count'),
+                ])
+                ->with(['webmaster.source'])
+                ->where('date', '>=', $dateFrom)
+                ->where('date', '<=', $dateTo)
+                ->when($sourceIds !== null && is_numeric(Arr::first($sourceIds)), function ($query) use ($sourceIds) {
+                    $query->whereHas('webmaster', function (Builder $query) use ($sourceIds) {
+                        $query->whereIn('source_id', $sourceIds);
+                    });
+                })
+                ->when($webmasterIds !== null && is_numeric(Arr::first($webmasterIds)), function ($query) use ($webmasterIds) {
+                    $query->whereIn('webmaster_id', $webmasterIds);
+                })
+                ->groupBy(['site_id', 'place_id', 'banner_id', 'campaign_id', 'webmaster_id'])
+                ->orderBy('webmaster_id')
+                ->orderBy('actions_count', 'desc')
+                ->get();
         } else {
             $rows = collect();
+            $detailedRows = collect();
         }
 
         $sources = Source::query()
@@ -125,6 +153,7 @@ class RevenueReportController extends Controller
 
         return view('admin.reports.revenue', compact(
             'rows',
+            'detailedRows',
             'webmasters',
             'sources',
             'shouldShowSourceName',
